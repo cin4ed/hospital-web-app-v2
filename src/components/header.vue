@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-// import ThemeButton from '@/components/theme-button';
+import ThemeToggle from '@/components/theme-toggle.vue';
 </script>
 
 <template>
@@ -28,7 +28,7 @@ import { Button } from '@/components/ui/button';
       </form>
     </div>
     <div class='flex gap-3'>
-<!--      <ThemeButton />-->
+      <ThemeToggle />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='secondary' size='icon' class='rounded-full'>
