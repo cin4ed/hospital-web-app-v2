@@ -13,12 +13,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/App.vue"),
       },
     ],
-  },
-  {
-    path: "/:catchAll(.*)",
-    name: "catchAll",
-    redirect: "/home",
-    component: () => import("@/App.vue")
   }
 ];
 
