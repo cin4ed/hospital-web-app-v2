@@ -1,4 +1,5 @@
 import { h } from "vue";
+import DropdownAction from "@/components/DataTableDropDown.vue";
 import type { ColumnDef } from "@tanstack/vue-table";
 
 export type Medicine = {
@@ -8,7 +9,7 @@ export type Medicine = {
   dosage_strength: string;
   dosage_unit: string;
   prescription_info: string;
-  type: string;
+  presentation: string;
   price: number;
   quantity_in_stock: number;
   supplier_name: string;
@@ -24,13 +25,16 @@ export const columns: ColumnDef<Medicine>[] = [
   {
     accessorKey: "dosage_strength",
     header: "Dosis",
+    cell: ({ row }) => {
+      return row.getValue("dosage_strength") + row.original.dosage_unit;
+    }
   },
   {
     accessorKey: "active_ingredients",
     header: "Componentes Activos",
   },
   {
-    accessorKey: "type",
+    accessorKey: "presentation",
     header: "Presentación",
   },
   {
@@ -50,4 +54,15 @@ export const columns: ColumnDef<Medicine>[] = [
       return h("div", { class: "text-right font-medium" }, formatted);
     },
   },
+  {
+    id: 'actions',
+    enableHiding: false,
+    cell: ({ row }) => {
+      const medicine = row.original;
+
+      return h('div', { class: 'relative'}, h(DropdownAction, {
+        medicine,
+      }))
+    }
+  }
 ];
