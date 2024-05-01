@@ -4,6 +4,7 @@ import vue from "@vitejs/plugin-vue"
 
 import tailwind from "tailwindcss"
 import autoprefixer from "autoprefixer"
+import VueRouter from 'unplugin-vue-router/vite'
 
 export default defineConfig({
   css: {
@@ -11,7 +12,10 @@ export default defineConfig({
       plugins: [tailwind(), autoprefixer()],
     },
   },
-  plugins: [vue()],
+  plugins: [
+    VueRouter({}),
+    vue()
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

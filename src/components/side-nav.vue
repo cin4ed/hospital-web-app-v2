@@ -47,7 +47,7 @@ import { Button } from '@/components/ui/button';
             <ClipboardList class='h-4 w-4' />
             Recetas Medicas
           </RouterLink>
-          <RouterLink to='/medicamentos' class="flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+          <RouterLink to='/medicines' class="flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary">
             <Tablets class='h-4 w-4' />
             Medicamentos
           </RouterLink>
