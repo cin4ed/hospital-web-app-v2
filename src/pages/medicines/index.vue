@@ -32,11 +32,13 @@ onMounted(fetchData);
 </script>
 
 <template>
-  <div class="space-y-4">
+  <div class="space-y-2">
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Inicio</BreadcrumbLink>
+          <BreadcrumbLink>
+            <RouterLink to="/">Inicio</RouterLink>
+          </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -44,14 +46,17 @@ onMounted(fetchData);
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
-    <div class="flex justify-between">
-      <div class="flex gap-3">
-        <Button class="space-x-2">
-          <Plus class="w-5 h-5" />
-          <a href="/medicines/new"> Agregar </a>
-        </Button>
-      </div>
-    </div>
-    <DataTable :columns="columns" :data="medicines" />
+		<div>
+    	<div class="flex items-end justify-between">
+				<h1 class="text-3xl font-semibold">Medicinas</h1>
+    	  <Button class="space-x-2">
+    	    <Plus class="w-5 h-5" />
+					<RouterLink to='/medicines/new'>
+ 	  	    	Nueva
+	  	   	</RouterLink>
+    	  </Button>
+    	</div>
+    	<DataTable :columns="columns" :data="medicines" />
+		</div>
   </div>
 </template>
