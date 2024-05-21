@@ -6,31 +6,26 @@ import { Button } from "@/components/ui/button";
 
 export type Apointments = {
   id: number;
-  apointment_date: Date;
-  id_patient: number;
-  id_doctor: number;
+  patient_id: number;
+  doctor_id: number;
   patient_name: string;
   doctor_name: string;
   name: string;
-
 };
 
 export const columns: ColumnDef<Apointments>[] = [
   {
-    accessorKey:"name",
-    header:"name"
-  },
-  {
-    accessorKey: "apointment_date",
+    accessorKey: "datetime",
     header: "Fecha de cita",
   },  
   {
-    accessorKey: "patient_name",
-    header: "Paciente",
-  },  {
     accessorKey: "doctor_name",
-    header: "Doctor",
-  }, 
+    header: "Nombre del Doctor",
+  },    
+  {
+    accessorKey: "patient_name",
+    header: "Nombre del Doctor",
+  },    
   {
     id: 'actions',
     enableHiding: false,
