@@ -4,11 +4,19 @@
 	import { Button } from '@/components/ui/button';
 
 	defineProps<{
-
-	}>();
-
-	function doSomething() {
-		console.log("hello");
+		payment: {
+			id: string
+		}
+	}>()
+	
+	function deleteElement(argument: any) {
+		console.log("Eliminar"+argument);
+	}
+	function editElement(argument: any) {
+		console.log("Editar"+argument);
+	}
+	function showElement(argument: any) {
+		console.log("Mostrar"+argument);
 	}
 </script>
 
@@ -22,12 +30,12 @@
 		</DropdownMenuTrigger>
 		<DropdownMenuContent align="end">
 			<DropdownMenuLabel>Actions</DropdownMenuLabel>
-			<DropdownMenuItem @click="doSomething">
-				Do Something
+			<DropdownMenuItem @click="deleteElement(payment.id)">
+				Eliminar
 			</DropdownMenuItem>
 			<DropdownMenuSeparator />
-			<DropdownMenuItem>View customer</DropdownMenuItem>
-			<DropdownMenuItem>View payment</DropdownMenuItem>
+			<DropdownMenuItem @click="editElement(payment.id)">Editar</DropdownMenuItem>
+			<DropdownMenuItem @click="showElement(payment.id)">Visualizar</DropdownMenuItem>
 		</DropdownMenuContent>
 	</DropdownMenu>	
 </template

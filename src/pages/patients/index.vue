@@ -23,10 +23,6 @@
     try {
       const response = await axios.get('/patients');
       Patients.value = response.data;
-
-      Patients.value.forEach((patient) => {
-        patient.name = `${patient.lastname} ${patient.birth_date}`;
-      });
       console.log(Patients.value)
     } catch (err) {
       console.error('Error fetching data: ', err);
@@ -47,7 +43,7 @@
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Medicamentos</BreadcrumbPage>
+          <BreadcrumbPage>Pacientes</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
