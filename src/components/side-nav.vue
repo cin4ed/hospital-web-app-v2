@@ -40,7 +40,7 @@ import { Button } from '@/components/ui/button';
             <Users class='h-4 w-4' />
             Pacientes
           </RouterLink>
-          <RouterLink to='/medical-certificates' class="flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+          <RouterLink to='/certificates' class="flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary">
             <FileBadge2 class='h-4 w-4' />
             Certificados
           </RouterLink>
