@@ -1,7 +1,7 @@
 import { h } from "vue";
 import DropdownAction from "@/components/DataTableDropDown.vue";
 import type { ColumnDef } from "@tanstack/vue-table";
-import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
+import { ArrowUpDown } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 
 export type Doctor = {
@@ -26,8 +26,8 @@ export const columns: ColumnDef<Doctor>[] = [
       }, () => ["Nombre", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })])
     },
     cell: ({ row }) => {
-      const name = row.getValue("name");
-      return h("div", {class: "capitalize"}, name);
+      const doctor = row.original
+      return h("div", {class: "capitalize"}, { id: doctor.id });
     },
     size: 50,
   },
@@ -62,7 +62,8 @@ export const columns: ColumnDef<Doctor>[] = [
       const doctor = row.original;
 
       return h('div', { class: 'relative'}, h(DropdownAction, {
-        doctor,
+        resource: 'doctors',
+        id: doctor.id
       }))
     }
   }

@@ -1,36 +1,16 @@
 <script setup lang="ts">
 	import { MoreHorizontal } from 'lucide-vue-next';
-	import axios from "@/lib/axios";
 	import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 	import { Button } from '@/components/ui/button';
-	import { useRouter } from 'vue-router';
 
-	const router = useRouter();
+	defineProps<{
+    resource: string
+    id: number
+	}>()
 
-	const props = defineProps<{
-		payment: {
-			id: string;
-		};
-		root: {
-			id: string;
-		};
-	}>();
-	
-	function deleteElement(argument: any) {
-		axios.delete(`/${props.root}/${argument}`);
-	}
-	function editElement(argument: any) {
-		router.push({
-			path: `/${props.root}/edit`,
-			query: { item_id: argument}
-		});
-	}
-	function showElement(argument: any) {
-		router.push({
-			path: `/${props.root}/view`,
-			query: { item_id: argument}
-		});
-	}
+  function deleteElement(argument: any) {
+    console.log("Eliminar"+argument);
+  }
 </script>
 
 <template>
@@ -43,12 +23,20 @@
 		</DropdownMenuTrigger>
 		<DropdownMenuContent align="end">
 			<DropdownMenuLabel>Actions</DropdownMenuLabel>
-			<DropdownMenuItem @click="deleteElement(payment.id)">
+			<DropdownMenuItem @click="deleteElement(id)">
 				Eliminar
 			</DropdownMenuItem>
 			<DropdownMenuSeparator />
-			<DropdownMenuItem @click="editElement(payment.id)">Editar</DropdownMenuItem>
-			<DropdownMenuItem @click="showElement(payment.id)">Visualizar</DropdownMenuItem>
+			<DropdownMenuItem>
+        <RouterLink :to="'/'+resource+'/edit'">
+          Editar
+        </RouterLink>
+      </DropdownMenuItem>
+			<DropdownMenuItem>
+        <RouterLink :to="'/'+resource+'/show'">
+          Visualizar
+        </RouterLink>
+      </DropdownMenuItem>
 		</DropdownMenuContent>
 	</DropdownMenu>	
-</template
+</template>

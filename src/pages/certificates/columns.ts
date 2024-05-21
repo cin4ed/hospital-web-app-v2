@@ -1,9 +1,9 @@
 import { h } from "vue";
 import DropdownAction from "@/components/DataTableDropDown.vue";
 import type { ColumnDef } from "@tanstack/vue-table";
-import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
-import { Button } from "@/components/ui/button";
-import { DateAndTimeSegmentObj } from "node_modules/radix-vue/dist/shared/date";
+// import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
+// import { Button } from "@/components/ui/button";
+// import { DateAndTimeSegmentObj } from "node_modules/radix-vue/dist/shared/date";
 
 export type Certificates = {
   id: number;
@@ -65,9 +65,9 @@ export const columns: ColumnDef<Certificates>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const certificate = row.original;
-
       return h('div', { class: 'relative'}, h(DropdownAction, {
-        certificate,
+        resource: 'certificates',
+        id: certificate.id
       }))
     }
   }

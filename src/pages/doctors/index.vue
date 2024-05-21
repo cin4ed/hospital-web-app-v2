@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from "@/lib/axios";
 import { ref, onMounted } from "vue";
-import type { Doctors } from "./columns.ts";
+import type { Doctor } from "./columns.ts";
 
 import { columns } from "@/pages/doctors/columns.ts";
 import DataTable from "@/components/ui/data-table.vue";
