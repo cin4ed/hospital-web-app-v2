@@ -29,7 +29,7 @@ const formSchema = toTypedSchema(
   z.object({
     name: z.string(),
     active_ingredients: z.string(),
-    dosage_strength: z.string(),
+    dosage_strength: z.number().int(),
     dosage_unit: z.string(),
     prescription_info: z.string(),
     presentation: z.enum(["Cápsula", "Tableta", "Jarabe"]),
@@ -73,7 +73,7 @@ const onSubmit = form.handleSubmit((values) => {
       </BreadcrumbList>
     </Breadcrumb>
     <h1 class="text-3xl font-semibold">Agrega una nueva medicina</h1>
-    <form @submit.prevent="onSubmit" class="space-y-4">
+    <form @submit="onSubmit" class="space-y-4">
       <!-- name -->
       <FormField v-slot="{ componentField }" name="name">
         <FormItem>
