@@ -22,7 +22,6 @@ export type Medicine = {
 export const columns: ColumnDef<Medicine>[] = [
   {
     accessorKey: "name",
-    // header: "Nombre",
     header: ({ column }) => {
       return h(Button, {
         variant: "ghost",
@@ -33,6 +32,7 @@ export const columns: ColumnDef<Medicine>[] = [
       const name = row.getValue("name");
       return h("div", {class: "capitalize"}, name);
     },
+    size: 50,
   },
   {
     accessorKey: "dosage_strength",

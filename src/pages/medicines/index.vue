@@ -49,12 +49,12 @@ onMounted(fetchData);
 		<div>
     	<div class="flex items-end justify-between">
 				<h1 class="text-3xl font-semibold">Medicinas</h1>
-    	  <Button class="space-x-2">
-    	    <Plus class="w-5 h-5" />
-					<RouterLink to='/medicines/new'>
- 	  	    	Nueva
-	  	   	</RouterLink>
-    	  </Button>
+    	  <RouterLink to='/medicines/new'>
+          <Button class="space-x-2">
+            <Plus class="w-5 h-5" />
+            <span>Nueva</span>
+          </Button>
+    	  </RouterLink>
     	</div>
     	<DataTable :columns="columns" :data="medicines" />
 		</div>
