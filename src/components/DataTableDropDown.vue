@@ -1,22 +1,35 @@
 <script setup lang="ts">
 	import { MoreHorizontal } from 'lucide-vue-next';
+	import axios from "@/lib/axios";
 	import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 	import { Button } from '@/components/ui/button';
+	import { useRouter } from 'vue-router';
 
-	defineProps<{
+	const router = useRouter();
+
+	const props = defineProps<{
 		payment: {
-			id: string
-		}
-	}>()
+			id: string;
+		};
+		root: {
+			id: string;
+		};
+	}>();
 	
 	function deleteElement(argument: any) {
-		console.log("Eliminar"+argument);
+		axios.delete(`/${props.root}/${argument}`);
 	}
 	function editElement(argument: any) {
-		console.log("Editar"+argument);
+		router.push({
+			path: `/${props.root}/edit`,
+			query: { item_id: argument}
+		});
 	}
 	function showElement(argument: any) {
-		console.log("Mostrar"+argument);
+		router.push({
+			path: `/${props.root}/view`,
+			query: { item_id: argument}
+		});
 	}
 </script>
 

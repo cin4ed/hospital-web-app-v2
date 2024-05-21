@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
+import axios from "@/lib/axios";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 
@@ -28,27 +29,22 @@ import { Button } from "@/components/ui/button";
 const formSchema = toTypedSchema(
   z.object({
     name: z.string(),
-    active_ingredients: z.string(),
-    dosage_strength: z.string(),
-    dosage_unit: z.string(),
-    prescription_info: z.string(),
-    presentation: z.enum(["Cápsula", "Tableta", "Jarabe"]),
-    price: z.number(),
-    quantity_in_stock: z.number().int(),
-    supplier_name: z.string(),
-    supplier_contact: z.string(),
-    supplier_cost: z.number(),
-    description: z.string().optional(),
+    lastname: z.string(),
+    birth_date: z.string(),
+    affiliation_date: z.string(),
+    phone_number: z.number(),
+    blood_type: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
   })
 );
 
-const form = useForm({
-  validationSchema: formSchema,
-});
+  const form = useForm({
+    validationSchema: formSchema,
+  });
 
-const onSubmit = form.handleSubmit((values) => {
-  console.log(values);
-});
+  const onSubmit = form.handleSubmit((values) => {
+    console.log(values);
+    axios.post(`/patients`, values);
+  });
 </script>
 
 <template>
@@ -72,7 +68,8 @@ const onSubmit = form.handleSubmit((values) => {
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
-    <h1 class="text-3xl font-semibold">Agrega una nueva medicina</h1>
+
+    <h1 class="text-3xl font-semibold">Agrega un nuevo paciente</h1>
     <form @submit.prevent="onSubmit" class="space-y-4">
       <!-- name -->
       <FormField v-slot="{ componentField }" name="name">
@@ -81,176 +78,85 @@ const onSubmit = form.handleSubmit((values) => {
           <FormControl>
             <Input
               type="text"
-              placeholder="Aspirina"
+              placeholder="Nombre del paciente"
               v-bind="componentField"
             />
           </FormControl>
-          <FormDescription> El nombre de la medicina. </FormDescription>
           <FormMessage />
         </FormItem>
       </FormField>
       <!-- active ingredients -->
-      <FormField v-slot="{ componentField }" name="active_ingredients">
+      <FormField v-slot="{ componentField }" name="lastname">
         <FormItem>
-          <FormLabel>Ingredientes activos</FormLabel>
+          <FormLabel>Apellidos</FormLabel>
           <FormControl>
             <Input
                 type="text"
-                placeholder="Ácido acetilsalicílico"
+                placeholder="Apellidos del paciente"
                 v-bind="componentField"
             />
           </FormControl>
-          <FormDescription>Introduce los ingredientes activos.</FormDescription>
           <FormMessage />
         </FormItem>
       </FormField>
       <!-- dosage strength -->
-      <FormField v-slot="{ componentField }" name="dosage_strength">
+      <FormField v-slot="{ componentField }" name="birth_date">
         <FormItem>
-          <FormLabel>Dósis</FormLabel>
+          <FormLabel>Fecha de nacimiento</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="date"
                 placeholder="500"
                 v-bind="componentField"
             />
           </FormControl>
-          <FormDescription>Dosage strength.</FormDescription>
           <FormMessage />
         </FormItem>
       </FormField>
       <!-- dosage unit -->
-      <FormField v-slot="{ componentField }" name="dosage_unit">
+      <FormField v-slot="{ componentField }" name="affiliation_date">
         <FormItem>
-          <FormLabel>Unidad</FormLabel>
+          <FormLabel>Fecha de afiliacion</FormLabel>
           <FormControl>
             <Input
-                type="text"
+                type="date"
                 placeholder="mg"
                 v-bind="componentField"
             />
           </FormControl>
-          <FormDescription>Dosage unit.</FormDescription>
           <FormMessage />
         </FormItem>
       </FormField>
       <!-- prescription info -->
-      <FormField v-slot="{ componentField }" name="prescription_info">
+      <FormField v-slot="{ componentField }" name="phone_number">
         <FormItem>
-          <FormLabel>Información</FormLabel>
+          <FormLabel>Número telefonico</FormLabel>
           <FormControl>
             <Input
-                type="text"
+                type="number"
                 placeholder="placeholder"
                 v-bind="componentField"
             />
           </FormControl>
-          <FormDescription>Información de descripción</FormDescription>
           <FormMessage />
         </FormItem>
       </FormField>
       <!-- presentation -->
-      <FormField v-slot="{ componentField }" name="presentation">
+      <FormField v-slot="{ componentField }" name="blood_type">
         <FormItem>
-          <FormLabel>Presentación</FormLabel>
+          <FormLabel>Tipo de sangre</FormLabel>
           <FormControl>
             <select v-bind="componentField">
-              <option value="Cápsula">Cápsula</option>
-              <option value="Tableta">Tableta</option>
-              <option value="Jarabe">Jarabe</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
             </select>
           </FormControl>
-          <FormDescription>Presentación de la medicina.</FormDescription>
-          <FormMessage />
-        </FormItem>
-      </FormField>
-      <!-- price -->
-      <FormField v-slot="{ componentField }" name="price">
-        <FormItem>
-          <FormLabel>Precio</FormLabel>
-          <FormControl>
-            <Input
-                type="number"
-                placeholder="100"
-                v-bind="componentField"
-            />
-          </FormControl>
-          <FormDescription>Precio de la medicina.</FormDescription>
-          <FormMessage />
-        </FormItem>
-      </FormField>
-      <!-- quantity in stock -->
-      <FormField v-slot="{ componentField }" name="quantity_in_stock">
-        <FormItem>
-          <FormLabel>Cantidad en stock</FormLabel>
-          <FormControl>
-            <Input
-                type="number"
-                placeholder="100"
-                v-bind="componentField"
-            />
-          </FormControl>
-          <FormDescription>Cantidad en stock.</FormDescription>
-          <FormMessage />
-        </FormItem>
-      </FormField>
-      <!-- supplier name -->
-      <FormField v-slot="{ componentField }" name="supplier_name">
-        <FormItem>
-          <FormLabel>Nombre del proveedor</FormLabel>
-          <FormControl>
-            <Input
-                type="text"
-                placeholder="Farmacias Guadalajara"
-                v-bind="componentField"
-            />
-          </FormControl>
-          <FormDescription>Nombre del proveedor.</FormDescription>
-          <FormMessage />
-        </FormItem>
-      </FormField>
-      <!-- supplier contact -->
-      <FormField v-slot="{ componentField }" name="supplier_contact">
-        <FormItem>
-          <FormLabel>Contacto del proveedor</FormLabel>
-          <FormControl>
-            <Input
-                type="text"
-                placeholder="ABC Pharmaceuticals"
-                v-bind="componentField"
-            />
-          </FormControl>
-          <FormDescription>Contacto del proveedor.</FormDescription>
-          <FormMessage />
-        </FormItem>
-      </FormField>
-      <!-- supplier cost -->
-      <FormField v-slot="{ componentField }" name="supplier_cost">
-        <FormItem>
-          <FormLabel>Costo del proveedor</FormLabel>
-          <FormControl>
-            <Input
-                type="number"
-                placeholder="100"
-                v-bind="componentField"
-            />
-          </FormControl>
-          <FormDescription>Costo del proveedor.</FormDescription>
-          <FormMessage />
-        </FormItem>
-      </FormField>
-      <!-- description -->
-      <FormField v-slot="{ componentField }" name="description">
-        <FormItem>
-          <FormLabel>Descripción</FormLabel>
-          <FormControl>
-            <Input
-                type="text"
-                placeholder="Descripción de la medicina"
-                v-bind="componentField"
-            />
-          </FormControl>
-          <FormDescription>Descripción de la medicina.</FormDescription>
           <FormMessage />
         </FormItem>
       </FormField>

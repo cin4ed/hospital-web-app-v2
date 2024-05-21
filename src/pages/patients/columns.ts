@@ -53,17 +53,13 @@ export const columns: ColumnDef<Patient>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const Patient = row.original;
-      const options = [
-        { label: 'Ver', value: 'view' },
-        { label: 'Editar', value: 'edit' },
-        { label: 'Eliminar', value: 'delete' },
-      ];
-  
-      return h('div', { class: 'relative'}, h(DropdownAction, {
-        options: options,
+      const payment = row
+      const root = 'patients'
+
+      return h('div', { class: 'relative' }, h(DropdownAction, {
+        payment,
+        root
       }))
     },
-    header: "Acciones" // Personaliza el texto del encabezado de la columna de acciones
-  }
+  },
 ];
