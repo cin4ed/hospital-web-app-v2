@@ -66,7 +66,7 @@ const onSubmit = form.handleSubmit((values) => {
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
-    <h1 class="text-3xl font-semibold">Agendar cita</h1>
+    <h1 class="text-3xl font-semibold">Registrar cita</h1>
     <form @submit.prevent="onSubmit" class="space-y-4">
       <!-- date -->
       <FormField v-slot="{ componentField }" name="apointment_date">
