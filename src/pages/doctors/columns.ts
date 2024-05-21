@@ -59,10 +59,12 @@ export const columns: ColumnDef<Doctor>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const doctor = row.original;
+      const payment = row
+      const root = 'doctors'
 
       return h('div', { class: 'relative'}, h(DropdownAction, {
-        doctor,
+        payment,
+        root
       }))
     }
   }

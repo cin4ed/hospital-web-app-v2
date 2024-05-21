@@ -17,7 +17,7 @@ export type Certificates = {
   diastolic_pressure: number;
   heart_rate: number;
   respiratory_rate: number;
-  date: Date;
+  date: DateAndTimeSegmentObj;
   doctor_name: string;
   name: string;
 };

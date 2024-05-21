@@ -28,6 +28,8 @@ declare module 'vue-router/auto-routes' {
     '/medicines/': RouteRecordInfo<'/medicines/', '/medicines', Record<never, never>, Record<never, never>>,
     '/medicines/new/': RouteRecordInfo<'/medicines/new/', '/medicines/new', Record<never, never>, Record<never, never>>,
     '/patients/': RouteRecordInfo<'/patients/', '/patients', Record<never, never>, Record<never, never>>,
+    '/patients/edit/': RouteRecordInfo<'/patients/edit/', '/patients/edit', Record<never, never>, Record<never, never>>,
     '/patients/new/': RouteRecordInfo<'/patients/new/', '/patients/new', Record<never, never>, Record<never, never>>,
+    '/patients/view/': RouteRecordInfo<'/patients/view/', '/patients/view', Record<never, never>, Record<never, never>>,
   }
 }
