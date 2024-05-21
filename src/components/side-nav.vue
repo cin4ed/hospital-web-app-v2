@@ -8,6 +8,7 @@ import {
   FileBadge2,
   Package2,
   Bell,
+  UserPlus
 } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
 </script>
@@ -50,6 +51,10 @@ import { Button } from '@/components/ui/button';
           <RouterLink to='/medicines' class="flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary">
             <Tablets class='h-4 w-4' />
             Medicamentos
+          </RouterLink>
+          <RouterLink to='/doctors' class="flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+            <UserPlus class='h-4 w-4' />
+            Doctores
           </RouterLink>
         </nav>
       </div>
