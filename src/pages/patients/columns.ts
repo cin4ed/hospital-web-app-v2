@@ -1,7 +1,7 @@
 import { h } from "vue";
 import DropdownAction from "@/components/DataTableDropDown.vue";
 import type { ColumnDef } from "@tanstack/vue-table";
-import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
+import { ArrowUpDown } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 
 export type Patient = {
@@ -24,8 +24,8 @@ export const columns: ColumnDef<Patient>[] = [
       }, () => ["Nombre", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })])
     },
     cell: ({ row }) => {
-      const name = row.getValue("name");
-      return h("div", {class: "capitalize"}, name);
+      const patient = row.original;
+      return h("div", {class: "capitalize"}, { id: patient.id });
     },
     size: 50,
   },
@@ -53,13 +53,12 @@ export const columns: ColumnDef<Patient>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row
-      const root = 'patients'
-
-      return h('div', { class: 'relative' }, h(DropdownAction, {
-        payment,
-        root
+      const patient = row.original;
+      return h('div', { class: 'relative'}, h(DropdownAction, {
+        resource: 'patients',
+        id: patient.id
       }))
     },
-  },
+    header: "Acciones" // Personaliza el texto del encabezado de la columna de acciones
+  }
 ];

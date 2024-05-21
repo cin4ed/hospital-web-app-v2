@@ -1,9 +1,6 @@
 import { h } from "vue";
 import DropdownAction from "@/components/DataTableDropDown.vue";
 import type { ColumnDef } from "@tanstack/vue-table";
-import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
-import { Button } from "@/components/ui/button";
-import { datetimeRegex } from "zod";
 import { DateAndTimeSegmentObj } from "node_modules/radix-vue/dist/shared/date";
 
 export type Apointments = {
@@ -33,10 +30,10 @@ export const columns: ColumnDef<Apointments>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const apointment = row.original;
-
+      const appointment = row.original;
       return h('div', { class: 'relative'}, h(DropdownAction, {
-        apointment,
+        resource: 'appointments',
+        id: appointment.id
       }))
     }
   }
