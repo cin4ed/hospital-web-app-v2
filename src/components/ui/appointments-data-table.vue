@@ -35,8 +35,6 @@ import { Input } from "@/components/ui/input";
 const props = defineProps<{
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  searchPlaceholder: string;
-  searchBy: string;
 }>();
 
 const sorting = ref<SortingState>([]);
@@ -65,9 +63,9 @@ const table = useVueTable({
 <template>
   <div>
     <div class="flex items-center py-4">
-      <Input class="max-w-sm" :placeholder="props.searchPlaceholder"
-             :model-value="table.getColumn(props.searchBy)?.getFilterValue() as string"
-             @update:model-value="table.getColumn(props.searchBy)?.setFilterValue($event)"
+      <Input class="max-w-sm" placeholder="Buscar por paciente..."
+             :model-value="table.getColumn('patient_name')?.getFilterValue() as string"
+             @update:model-value="table.getColumn('patient_name')?.setFilterValue($event)"
       />
     </div>
     <div class="border rounded-md">
