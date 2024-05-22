@@ -33,7 +33,7 @@ const formSchema = toTypedSchema(
       lastname: z.string(),
       birth_date: z.string(),
       affiliation_date: z.string(),
-      phone_number: z.number(),
+      phone_number: z.string(),
       blood_type: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
     })
   );
@@ -136,7 +136,7 @@ const formSchema = toTypedSchema(
           <FormLabel>Número telefonico</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="text"
                 placeholder="placeholder"
                 v-bind="componentField"
             />
@@ -150,6 +150,7 @@ const formSchema = toTypedSchema(
           <FormLabel>Tipo de sangre</FormLabel>
           <FormControl>
             <select v-bind="componentField">
+              <option>Seleccione un tipo de sangre</option>
               <option value="A+">A+</option>
               <option value="A-">A-</option>
               <option value="B+">B+</option>
