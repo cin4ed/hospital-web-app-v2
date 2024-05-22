@@ -3,6 +3,8 @@
   import axios from "@/lib/axios";
   import { toTypedSchema } from "@vee-validate/zod";
   import * as z from "zod";
+  import { useRouter, useRoute } from 'vue-router';
+  import { ref } from "vue";
 
   import {
     Breadcrumb,
@@ -25,6 +27,42 @@
   import { Input } from "@/components/ui/input";
 
   import { Button } from "@/components/ui/button";
+  
+  const route = useRoute();
+  const patientId = route.params.id;
+  const patientData = ref([])
+  const response = axios.get(`/patients/${patientId}`);
+  
+  /* Variables a rellenar del formulario */
+  const name = ref('')
+  const lastname = ref('')
+  const birth_date = ref('')
+  const affiliation_date = ref('')
+  const phone_number = ref('')
+  const blood_type = ref(0)
+  const bloodTypeEnum = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+
+  const fetchPatientData = async () => {
+    try {
+      const response = await axios.get(`/patients/${patientId}`);
+      patientData.value = response.data;
+      name.value = patientData.value.name
+      lastname.value = patientData.value.lastname
+      birth_date.value = patientData.value.birth_date
+      affiliation_date.value = patientData.value.affiliation_date
+      phone_number.value = formatPhoneNumber(patientData.value.phone_number);
+      blood_type.value = patientData.value.blood_type;
+      console.log(blood_type.value)
+    } catch (error) {
+      console.error('Error fetching patient data:', error);
+    }
+  };
+
+  fetchPatientData();
+
+  const formatPhoneNumber = (phone) => {
+    return phone.replace(/[^\d]/g, ''); // Elimina todos los caracteres no numéricos
+  };
 
   const formSchema = toTypedSchema(
     z.object({
@@ -41,8 +79,11 @@
     validationSchema: formSchema,
   });
 
+  const router = useRouter();
   const onSubmit = form.handleSubmit((values) => {
-    axios.put(`/patients/${0}`, values);
+    console.log(values);
+    axios.put(`/patients`, values);
+    router.push(`/patients`);
   });
 </script>
 
@@ -57,8 +98,8 @@
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="/medicines">
-            <RouterLink to="/medicines">Medicamentos</RouterLink>
+          <BreadcrumbLink>
+            <RouterLink to="/patients">Pacientes</RouterLink>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -68,7 +109,7 @@
       </BreadcrumbList>
     </Breadcrumb>
 
-    <h1 class="text-3xl font-semibold">Agrega un nuevo paciente</h1>
+    <h1 class="text-3xl font-semibold">Edita un paciente</h1>
     <form @submit.prevent="onSubmit" class="space-y-4">
       <!-- name -->
       <FormField v-slot="{ componentField }" name="name">
@@ -79,6 +120,7 @@
               type="text"
               placeholder="Nombre del paciente"
               v-bind="componentField"
+              v-model="name"
             />
           </FormControl>
           <FormMessage />
@@ -93,6 +135,7 @@
                 type="text"
                 placeholder="Apellidos del paciente"
                 v-bind="componentField"
+                v-model="lastname"
             />
           </FormControl>
           <FormMessage />
@@ -107,6 +150,7 @@
                 type="date"
                 placeholder="500"
                 v-bind="componentField"
+                v-model="birth_date"
             />
           </FormControl>
           <FormMessage />
@@ -121,6 +165,7 @@
                 type="date"
                 placeholder="mg"
                 v-bind="componentField"
+                v-model="affiliation_date"
             />
           </FormControl>
           <FormMessage />
@@ -135,6 +180,7 @@
                 type="number"
                 placeholder="placeholder"
                 v-bind="componentField"
+                v-model="phone_number"
             />
           </FormControl>
           <FormMessage />
@@ -145,7 +191,7 @@
         <FormItem>
           <FormLabel>Tipo de sangre</FormLabel>
           <FormControl>
-            <select v-bind="componentField">
+            <select v-bind="componentField" v-model="blood_type">
               <option value="A+">A+</option>
               <option value="A-">A-</option>
               <option value="B+">B+</option>
