@@ -2,6 +2,8 @@
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
+import { useRouter, useRoute } from 'vue-router';
+import axios from "@/lib/axios";
 
 import {
   Breadcrumb,
@@ -29,10 +31,10 @@ const formSchema = toTypedSchema(
   z.object({
     name: z.string(),
     last_name: z.string(),
-    specialty: z.string(),
-    dadmission_date: z.date(),
+    speciality: z.string(),
+    admission_date: z.string(),
     professional_id: z.string(),
-    phone_number: z.string(),
+    phone_number: z.number(),
     email: z.string(),
   })
 );
@@ -41,9 +43,12 @@ const form = useForm({
   validationSchema: formSchema,
 });
 
-const onSubmit = form.handleSubmit((values) => {
-  console.log(values);
-});
+  const router = useRouter();
+  const onSubmit = form.handleSubmit((values) => {
+    console.log(values);
+    axios.post(`/doctors/`, values);
+    router.push(`/doctors`);
+  });
 </script>
 
 <template>
@@ -98,7 +103,7 @@ const onSubmit = form.handleSubmit((values) => {
         </FormItem>
       </FormField>
       <!-- especialidad -->
-      <FormField v-slot="{ componentField }" name="specialty">
+      <FormField v-slot="{ componentField }" name="speciality">
         <FormItem>
           <FormLabel>Especialidad</FormLabel>
           <FormControl>
@@ -145,7 +150,7 @@ const onSubmit = form.handleSubmit((values) => {
           <FormLabel>Número de teléfono</FormLabel>
           <FormControl>
             <Input
-                type="text"
+                type="number"
                 placeholder="Teléfono"
                 v-bind="componentField"
             />
