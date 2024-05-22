@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import {
-  Home,
+  // Home,
   Users,
   Tablets,
   BookMarked,
   ClipboardList,
   FileBadge2,
   Package2,
-  Bell,
+  // Bell,
   UserPlus
 } from 'lucide-vue-next';
-import { Button } from '@/components/ui/button';
+// import { Button } from '@/components/ui/button';
 </script>
 
 <template>
@@ -21,17 +21,18 @@ import { Button } from '@/components/ui/button';
           <Package2 class='h-6 w-6' />
           <span>Hospital</span>
         </RouterLink>
-        <Button variant='outline' size='icon' class='ml-auto h-8 w-8'>
+<!--         <Button variant='outline' size='icon' class='ml-auto h-8 w-8'>
           <Bell class='h-4 w-4' />
           <span class='sr-only'>Toggle notifications</span>
         </Button>
-      </div>
+ -->      </div>
       <div class='flex-1'>
         <nav class='grid items-start px-4 text-sm font-medium'>
-          <RouterLink to='/' class="flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+<!--           <RouterLink to='/' class="flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary">
             <Home class='h-4 w-4' />
             Inicio
           </RouterLink>
+ -->
           <RouterLink to='/apointments' class="flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary">
             <BookMarked class='h-4 w-4' />
             Citas
