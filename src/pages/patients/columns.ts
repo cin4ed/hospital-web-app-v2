@@ -25,7 +25,7 @@ export const columns: ColumnDef<Patient>[] = [
     },
     cell: ({ row }) => {
       const patient = row.original;
-      return h("div", {class: "capitalize"}, { id: patient.id });
+      return h("div", {class: "capitalize"}, patient.name);
     },
     size: 50,
   },
