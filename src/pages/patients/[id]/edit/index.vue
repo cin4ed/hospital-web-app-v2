@@ -38,7 +38,7 @@
   const lastname = ref('')
   const birth_date = ref('')
   const affiliation_date = ref('')
-  const phone_number = ref('')
+  const phone_number = ref(0)
   const blood_type = ref(0)
   const bloodTypeEnum = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -52,7 +52,14 @@
       affiliation_date.value = patientData.value.affiliation_date
       phone_number.value = formatPhoneNumber(patientData.value.phone_number);
       blood_type.value = patientData.value.blood_type;
-      console.log(blood_type.value)
+      form.setValues({
+        name: patientData.value.name,
+        lastname: patientData.value.lastname,
+        birth_date: patientData.value.birth_date,
+        affiliation_date: patientData.value.affiliation_date,
+        phone_number: parseInt(formatPhoneNumber(patientData.value.phone_number)),
+        blood_type: patientData.value.blood_type,
+      });
     } catch (error) {
       console.error('Error fetching patient data:', error);
     }
