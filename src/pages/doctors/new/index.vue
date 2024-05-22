@@ -30,11 +30,11 @@ import { Button } from "@/components/ui/button";
 const formSchema = toTypedSchema(
   z.object({
     name: z.string(),
-    last_name: z.string(),
+    lastname: z.string(),
     speciality: z.string(),
     admission_date: z.string(),
     professional_id: z.string(),
-    phone_number: z.number(),
+    phone_number: z.string(),
     email: z.string(),
   })
 );
@@ -89,7 +89,7 @@ const form = useForm({
         </FormItem>
       </FormField>
       <!-- apellido -->
-      <FormField v-slot="{ componentField }" name="last_name">
+      <FormField v-slot="{ componentField }" name="lastname">
         <FormItem>
           <FormLabel>Apellido</FormLabel>
           <FormControl>
@@ -150,7 +150,7 @@ const form = useForm({
           <FormLabel>Número de teléfono</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="text"
                 placeholder="Teléfono"
                 v-bind="componentField"
             />

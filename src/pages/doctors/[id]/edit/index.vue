@@ -55,7 +55,7 @@ const fetchPatientData = async () => {
     speciality.value = doctorData.speciality;
     admission_date.value = doctorData.admission_date;
     professional_id.value = doctorData.professional_id;
-    phone_number.value = formatPhoneNumber(doctorData.phone_number);
+    phone_number.value = formatPhoneNumber(doctorData.phone_number).toString();
     email.value = doctorData.email;
 
     // Establecer los valores del formulario
@@ -65,7 +65,7 @@ const fetchPatientData = async () => {
       speciality: doctorData.speciality,
       admission_date: doctorData.admission_date,
       professional_id: doctorData.professional_id,
-      phone_number: parseInt(formatPhoneNumber(doctorData.phone_number)),
+      phone_number: parseInt(formatPhoneNumber(doctorData.phone_number)).toString(),
       email: doctorData.email,
     });
   } catch (error) {
@@ -81,7 +81,7 @@ const formSchema = toTypedSchema(
     speciality: z.string(),
     admission_date: z.string(),
     professional_id: z.string(),
-    phone_number: z.number(),
+    phone_number: z.string(),
     email: z.string(),
   })
 );
@@ -201,7 +201,7 @@ const form = useForm({
           <FormLabel>Número de teléfono</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="text"
                 placeholder="Teléfono"
                 v-bind="componentField"
                 v-model="phone_number"

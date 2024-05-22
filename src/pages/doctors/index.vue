@@ -29,6 +29,7 @@ async function fetchData(): Promise<void> {
 }
 
 onMounted(fetchData);
+fetchData();
 </script>
 
 <template>
