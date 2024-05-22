@@ -88,8 +88,8 @@
 
   const router = useRouter();
   const onSubmit = form.handleSubmit((values) => {
-    console.log(values);
-    axios.put(`/patients`, values);
+    values.phone_number = values.phone_number.toString()
+    axios.put(`/patients/${patientId}`, values);
     router.push(`/patients`);
   });
 </script>
@@ -198,7 +198,7 @@
         <FormItem>
           <FormLabel>Tipo de sangre</FormLabel>
           <FormControl>
-            <select v-bind="componentField" v-model="blood_type">
+            <select v-bind="componentField">
               <option value="A+">A+</option>
               <option value="A-">A-</option>
               <option value="B+">B+</option>
