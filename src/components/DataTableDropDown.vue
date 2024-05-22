@@ -23,19 +23,19 @@
 		</DropdownMenuTrigger>
 		<DropdownMenuContent align="end">
 			<DropdownMenuLabel>Actions</DropdownMenuLabel>
-			<DropdownMenuItem @click="deleteElement(id)">
-				Eliminar
-			</DropdownMenuItem>
 			<DropdownMenuSeparator />
-			<DropdownMenuItem>
-        <RouterLink :to="'/'+resource+'/edit'">
+      <RouterLink :to="'/'+resource+'/'+id+'/edit'">
+        <DropdownMenuItem>
           Editar
-        </RouterLink>
-      </DropdownMenuItem>
-			<DropdownMenuItem>
-        <RouterLink :to="'/'+resource+'/show'">
+        </DropdownMenuItem>
+      </RouterLink>
+      <RouterLink :to="'/'+resource+'/'+id+'/show'">
+        <DropdownMenuItem>
           Visualizar
-        </RouterLink>
+        </DropdownMenuItem>
+      </RouterLink>
+      <DropdownMenuItem @click="deleteElement(id)">
+        Eliminar
       </DropdownMenuItem>
 		</DropdownMenuContent>
 	</DropdownMenu>	
