@@ -35,7 +35,7 @@ async function fetchData(): Promise<void> {
     const response = await axios.get('/prescriptions');
     prescriptions.value = response.data;
 
-    const response3 = await axios.get('/medical-records');
+    const response3 = await axios.get('/medical-records');  
     medical_records.value = response3.data;
 
     /* Se piden todos los registros de doctors */
