@@ -3,20 +3,26 @@ import DropdownAction from "@/components/DataTableDropDown.vue";
 import type { ColumnDef } from "@tanstack/vue-table";
 import { DateAndTimeSegmentObj } from "node_modules/radix-vue/dist/shared/date";
 
-export type Apointments = {
+export type Prescriptions = {
   id: number;
   patient_id: number;
   doctor_id: number;
+  medical_record_id: number;
+  notes: string;
   patient_name: string;
   doctor_name: string;
-  datetime: DateAndTimeSegmentObj;
+  date: DateAndTimeSegmentObj;
   name: string;
 };
 
-export const columns: ColumnDef<Apointments>[] = [
+export const columns: ColumnDef<Prescriptions>[] = [
   {
-    accessorKey: "datetime",
-    header: "Fecha de cita",
+    accessorKey: "date",
+    header: "Fecha de receta",
+  },  
+  {
+    accessorKey: "notes",
+    header: "Notas de la receta",
   },  
   {
     accessorKey: "doctor_name",
@@ -30,10 +36,10 @@ export const columns: ColumnDef<Apointments>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const appointment = row.original;
+      const prescription = row.original;
       return h('div', { class: 'relative'}, h(DropdownAction, {
-        resource: 'appointments',
-        id: appointment.id
+        resource: 'prescriptions',
+        id: prescription.id
       }))
     }
   }
