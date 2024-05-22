@@ -30,6 +30,7 @@
   }
 
   onMounted(fetchData);
+  fetchData();
 </script>
 
 <template>
