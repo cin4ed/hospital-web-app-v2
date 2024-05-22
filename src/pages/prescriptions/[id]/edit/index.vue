@@ -212,7 +212,7 @@ const handleMedicineChange = (event) => {
           </ul>
         </div>
       </div>
-      <Button type="submit">Guardar</Button>
+      <Button type="submit" >Guardar</Button>
     </form>
   </div>
 </template>
