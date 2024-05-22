@@ -61,7 +61,7 @@
       price.value = patientData.price;
       quantity_in_stock.value = patientData.quantity_in_stock;
       supplier_name.value = patientData.supplier_name;
-      supplier_contact.value = parseInt(formatPhoneNumber(patientData.supplier_contact));
+      supplier_contact.value = parseInt(formatPhoneNumber(patientData.supplier_contact)).toString();
       supplier_cost.value = patientData.supplier_cost;
       description.value = patientData.description;
 
@@ -69,15 +69,15 @@
       form.setValues({
         name: patientData.name,
         active_ingredients: patientData.active_ingredients,
-        dosage_strength: parseInt(patientData.dosage_strength),
+        dosage_strength: parseInt(patientData.dosage_strength).toString(),
         dosage_unit: patientData.dosage_unit,
         prescription_info: patientData.prescription_info,
         presentation: patientData.presentation,
-        price: parseInt(patientData.price),
-        quantity_in_stock: patientData.quantity_in_stock,
+        price: parseInt(patientData.price).toString(),
+        quantity_in_stock: patientData.quantity_in_stock.toString(),
         supplier_name: patientData.supplier_name,
-        supplier_contact: parseInt(formatPhoneNumber(patientData.supplier_contact)),
-        supplier_cost: parseInt(patientData.supplier_cost),
+        supplier_contact: parseInt(formatPhoneNumber(patientData.supplier_contact)).toString(),
+        supplier_cost: parseInt(patientData.supplier_cost).toString(),
         description: patientData.description
       });
     } catch (error) {
@@ -94,15 +94,15 @@
     z.object({
       name: z.string(),
       active_ingredients: z.string(),
-      dosage_strength: z.number(),
+      dosage_strength: z.string(),
       dosage_unit: z.string(),
       prescription_info: z.string(),
-      presentation: z.enum(["Capsula", "Tableta", "Jarabe"]),
-      price: z.number(),
-      quantity_in_stock: z.number(),
+      presentation: z.enum(["pill", "capsule", "syrup"]),
+      price: z.string(),
+      quantity_in_stock: z.string(),  
       supplier_name: z.string(),
-      supplier_contact: z.number(),
-      supplier_cost: z.number(),
+      supplier_contact: z.string(),
+      supplier_cost: z.string(),
       description: z.string()
     })
   );
@@ -114,8 +114,8 @@
   const router = useRouter();
   const onSubmit = form.handleSubmit((values) => {
     console.log(values);
-    axios.put(`/patients`, values);
-    router.push(`/patients`);
+    axios.put(`/medicines/${medicineId}`, values);
+    router.push(`/medicines`);
   });
 </script>
 
@@ -177,7 +177,7 @@
           <FormLabel>Fuerza de la dosis</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="text"
                 v-bind="componentField"
                 v-model="dosage_strength"
             />
@@ -218,10 +218,10 @@
         <FormItem>
           <FormLabel>Forma de presentacion</FormLabel>
           <FormControl>
-            <select v-bind="componentField" v-model="presentation">
-              <option value="Capsula">Capsula</option>
-              <option value="Tableta">Tableta</option>
-              <option value="Jarabe">Jarabe</option>
+            <select v-bind="componentField">
+              <option value="pill">Capsula</option>
+              <option value="capsule">Tableta</option>
+              <option value="syrup">Jarabe</option>
             </select>
           </FormControl>
           <FormMessage />
@@ -232,7 +232,7 @@
           <FormLabel>Precio</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="text"
                 v-bind="componentField"
                 v-model="price"
             />
@@ -245,7 +245,7 @@
           <FormLabel>Cantidad en stock</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="text"
                 v-bind="componentField"
                 v-model="quantity_in_stock"
             />
@@ -271,7 +271,7 @@
           <FormLabel>Contacto del proveedor</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="string"
                 v-bind="componentField"
                 v-model="supplier_contact"
             />
@@ -284,7 +284,7 @@
           <FormLabel>Costo del proveedor</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="text"
                 v-bind="componentField"
                 v-model="supplier_cost"
             />

@@ -44,15 +44,15 @@ const formSchema = toTypedSchema(
   })
 );
 
-const form = useForm({
-  validationSchema: formSchema,
-});
+  const form = useForm({
+    validationSchema: formSchema,
+  });
 
   const router = useRouter();
   const onSubmit = form.handleSubmit((values) => {
     console.log(values);
     axios.post(`/medicines/`, values);
-    /* router.push(`/medicines`); */
+    router.push(`/medicines`);
   });
 </script>
 

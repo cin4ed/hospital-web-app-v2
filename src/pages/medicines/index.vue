@@ -22,13 +22,30 @@ const medicines = ref<Medicine[]>([]);
 async function fetchData(): Promise<void> {
   try {
     const response = await axios.get('/medicines');
-    medicines.value = response.data;
+    medicines.value = response.data.map(medicine => {
+      switch (medicine.presentation.toLowerCase()) {
+        case 'syrup':
+          medicine.presentation = 'Jarabe';
+          break;
+        case 'pill':
+          medicine.presentation = 'Tableta';
+          break;
+        case 'capsule':
+          medicine.presentation = 'Cápsula';
+          break;
+        default:
+          // No hacemos nada si el valor de presentation no coincide con los conocidos
+          break;
+      }
+      return medicine;
+    });
   } catch (err) {
     console.error('Error fetching data: ', err);
   }
 }
 
 onMounted(fetchData);
+fetchData();
 </script>
 
 <template>
