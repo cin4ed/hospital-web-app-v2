@@ -24,16 +24,16 @@
 		<DropdownMenuContent align="end">
 			<DropdownMenuLabel>Actions</DropdownMenuLabel>
 			<DropdownMenuSeparator />
-			<DropdownMenuItem>
-        <RouterLink :to="'/'+resource+'/'+id+'/edit'">
+      <RouterLink :to="'/'+resource+'/'+id+'/edit'">
+        <DropdownMenuItem>
           Editar
-        </RouterLink>
-      </DropdownMenuItem>
-			<DropdownMenuItem>
-        <RouterLink :to="'/'+resource+'/'+id+'/show'">
+        </DropdownMenuItem>
+      </RouterLink>
+      <RouterLink :to="'/'+resource+'/'+id+'/show'">
+        <DropdownMenuItem>
           Visualizar
-        </RouterLink>
-      </DropdownMenuItem>
+        </DropdownMenuItem>
+      </RouterLink>
       <DropdownMenuItem @click="deleteElement(id)">
         Eliminar
       </DropdownMenuItem>
