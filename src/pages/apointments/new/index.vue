@@ -2,6 +2,9 @@
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
+import { ref } from "vue";
+import { useRouter, useRoute } from 'vue-router';
+import axios from "@/lib/axios";
 
 import {
   Breadcrumb,
@@ -25,14 +28,39 @@ import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
 
+const doctorsSelectValues = ref([])
+const patientsSelectValues = ref([])
+const fetchPatientData = async () => {
+  try {
+    const doctorsRequest = await axios.get(`/doctors`);
+    const patientsRequest = await axios.get(`/patients`);
+    const doctorsTable = doctorsRequest.data;
+    const patientsTable = patientsRequest.data;
+
+    doctorsSelectValues.value = doctorsTable.map(doctor => ({
+      value: doctor.id,
+      text: doctor.name,
+    }));
+
+    patientsSelectValues.value = patientsTable.map(patient => ({
+      value: patient.id,
+      text: patient.name,
+    }));
+
+    console.log(doctorsTable)
+    console.log(patientsTable)
+    
+  } catch (error) {
+    console.error('Error fetching patient data:', error);
+  }
+};
+fetchPatientData();
+
 const formSchema = toTypedSchema(
   z.object({
-
-        apointment_date: z.date(),
-        name_paciente: z.string(),
-        name_doctor: z.string()
-
-
+        apointment_date: z.string(),
+        patient_name: z.number(),
+        doctor_name: z.number()
   })
 );
 
@@ -40,9 +68,12 @@ const form = useForm({
   validationSchema: formSchema,
 });
 
-const onSubmit = form.handleSubmit((values) => {
-  console.log(values);
-});
+const router = useRouter();
+  const onSubmit = form.handleSubmit((values) => {
+    console.log(values);
+    axios.post(`/doctors/`, values);
+    router.push(`/doctors`);
+  });
 </script>
 
 <template>
@@ -86,11 +117,11 @@ const onSubmit = form.handleSubmit((values) => {
         <FormItem>
           <FormLabel>Nombre del doctor</FormLabel>
           <FormControl>
-            <Input
-              type="text"
-              placeholder="John"
-              v-bind="componentField"
-            />
+            <select v-bind="componentField">
+              <option v-for="doctor in doctorsSelectValues" :key="doctor.value" :value="doctor.value">
+                {{ doctor.text }}
+              </option>
+            </select>
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -100,11 +131,11 @@ const onSubmit = form.handleSubmit((values) => {
         <FormItem>
           <FormLabel>Nombre del paciente</FormLabel>
           <FormControl>
-            <Input
-              type="text"
-              placeholder="Francis"
-              v-bind="componentField"
-            />
+            <select v-bind="componentField">
+              <option v-for="patient in patientsSelectValues" :key="patient.value" :value="patient.value">
+                {{ patient.text }}
+              </option>
+            </select>
           </FormControl>
           <FormMessage />
         </FormItem>
