@@ -34,7 +34,7 @@ const formSchema = toTypedSchema(
     dosage_strength: z.string(),
     dosage_unit: z.string(),
     prescription_info: z.string(),
-    presentation: z.enum(["Cápsula", "Tableta", "Jarabe"]),
+    presentation: z.enum(["pill", "capsule", "syrup"]),
     price: z.string(),
     quantity_in_stock: z.number().int(),
     supplier_name: z.string(),
@@ -161,9 +161,9 @@ const form = useForm({
           <FormControl>
             <select v-bind="componentField">
               <option>Seleccione una opcion</option>
-              <option value="Capsula">Cápsula</option>
-              <option value="Tableta">Tableta</option>
-              <option value="Jarabe">Jarabe</option>
+              <option value="pill">Cápsula</option>
+              <option value="capsule">Tableta</option>
+              <option value="syrup">Jarabe</option>
             </select>
           </FormControl>
           <FormDescription>Presentación de la medicina.</FormDescription>
