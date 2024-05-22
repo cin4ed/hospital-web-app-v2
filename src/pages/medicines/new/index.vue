@@ -31,11 +31,11 @@ const formSchema = toTypedSchema(
   z.object({
     name: z.string(),
     active_ingredients: z.string(),
-    dosage_strength: z.number().int(),
+    dosage_strength: z.string(),
     dosage_unit: z.string(),
     prescription_info: z.string(),
     presentation: z.enum(["Cápsula", "Tableta", "Jarabe"]),
-    price: z.number(),
+    price: z.string(),
     quantity_in_stock: z.number().int(),
     supplier_name: z.string(),
     supplier_contact: z.string(),
@@ -51,8 +51,8 @@ const form = useForm({
   const router = useRouter();
   const onSubmit = form.handleSubmit((values) => {
     console.log(values);
-    axios.post(`/doctors/`, values);
-    router.push(`/doctors`);
+    axios.post(`/medicines/`, values);
+    /* router.push(`/medicines`); */
   });
 </script>
 
@@ -115,7 +115,7 @@ const form = useForm({
           <FormLabel>Dósis</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="text"
                 placeholder="500"
                 v-bind="componentField"
             />
@@ -160,7 +160,8 @@ const form = useForm({
           <FormLabel>Presentación</FormLabel>
           <FormControl>
             <select v-bind="componentField">
-              <option value="Cápsula">Cápsula</option>
+              <option>Seleccione una opcion</option>
+              <option value="Capsula">Cápsula</option>
               <option value="Tableta">Tableta</option>
               <option value="Jarabe">Jarabe</option>
             </select>
@@ -175,7 +176,7 @@ const form = useForm({
           <FormLabel>Precio</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="text"
                 placeholder="100"
                 v-bind="componentField"
             />
