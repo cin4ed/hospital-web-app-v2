@@ -2,6 +2,8 @@
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
+import { useRouter, useRoute } from 'vue-router';
+import axios from "@/lib/axios";
 
 import {
   Breadcrumb,
@@ -46,9 +48,12 @@ const form = useForm({
   validationSchema: formSchema,
 });
 
-const onSubmit = form.handleSubmit((values) => {
-  console.log(values);
-});
+  const router = useRouter();
+  const onSubmit = form.handleSubmit((values) => {
+    console.log(values);
+    axios.post(`/doctors/`, values);
+    router.push(`/doctors`);
+  });
 </script>
 
 <template>
