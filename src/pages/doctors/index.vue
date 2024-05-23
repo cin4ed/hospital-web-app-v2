@@ -15,7 +15,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-vue-next";
+import { Plus, Info } from "lucide-vue-next";
+
 
 const doctors = ref<Doctor[]>([]);
 

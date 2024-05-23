@@ -18,7 +18,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-vue-next";
+import { Plus, Info } from "lucide-vue-next";
+
 import { Apointments } from "../apointments/columns.ts";
 
 const prescriptions = ref<Prescriptions[]>([]);
