@@ -44,7 +44,7 @@
           Visualizar
         </DropdownMenuItem>
       </RouterLink>
-      <a :href="'http://127.0.0.1:8000/api/'+resource+'/'+id+'/generate-pdf'" v-if="resource == 'medical-certificates'" target="_blank">
+      <a :href="'https://hospital.betweenframes.net/api/'+resource+'/'+id+'/generate-pdf'" v-if="resource == 'medical-certificates'" target="_blank">
         <DropdownMenuItem>
           Imprimir certificado
         </DropdownMenuItem>
