@@ -58,7 +58,7 @@
           </Button>
     	  </RouterLink>
     	</div>
-    	<DataTable :columns="columns" :data="Patients" />
+    	<DataTable :columns="columns" :data="Patients" search-placeholder="Buscar por nombre del paciente..." search-by="name" />
 		</div>
   </div>
 </template>

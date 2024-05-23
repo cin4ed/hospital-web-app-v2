@@ -103,7 +103,7 @@ onMounted(fetchData);
           </Button>
     	  </RouterLink>
     	</div>
-    	<DataTable :columns="columns" :data="combinedData" />
+    	<DataTable :columns="columns" :data="combinedData" search-placeholder="Buscar por nombre del paciente..." search-by="patient_name" />
 		</div>
   </div>
 </template>
