@@ -5,5 +5,8 @@
 </template>
 
 <script setup>
-	window.location.href = `/medicines`;
+import { useRouter, useRoute } from 'vue-router';
+const router = useRouter();
+
+router.push(`/doctors`);
 </script>
