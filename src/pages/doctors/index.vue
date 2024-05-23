@@ -57,7 +57,7 @@ fetchData();
           </Button>
     	  </RouterLink>
     	</div>
-    	<DataTable :columns="columns" :data="doctors" />
+    	<DataTable :columns="columns" :data="doctors" search-placeholder="Buscar por nombre del doctor..." search-by="name" />
 		</div>
   </div>
 </template>
