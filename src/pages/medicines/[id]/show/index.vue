@@ -4,7 +4,7 @@
   import { toTypedSchema } from "@vee-validate/zod";
   import * as z from "zod";
   import { useRouter, useRoute } from 'vue-router';
-  import { ref } from "vue";
+  import { ref, computed } from "vue";
 
   import {
     Breadcrumb,
@@ -25,7 +25,6 @@
   } from "@/components/ui/form";
 
   import { Input } from "@/components/ui/input";
-
   import { Button } from "@/components/ui/button";
   
   const route = useRoute();
@@ -33,12 +32,12 @@
   const medicineData = ref([])
   
   /* Variables a rellenar del formulario */
-  const name = ref('')
-  const active_ingredients = ref('')
-  const dosage_strength = ref(0)
-  const dosage_unit = ref(0)
-  const prescription_info = ref('')
-  const presentation = ref('')
+  const name = ref('');
+  const active_ingredients = ref('');
+  const dosage_strength = ref(0);
+  const dosage_unit = ref('');
+  const prescription_info = ref('');
+  const presentation = ref('');
   const price = ref(0);
   const quantity_in_stock = ref(0);
   const supplier_name = ref('');
@@ -113,9 +112,20 @@
 
   const router = useRouter();
   const onSubmit = form.handleSubmit((values) => {
-    console.log(values);
-    axios.put(`/patients`, values);
     router.push(`/patients`);
+  });
+
+  const convertedPresentation = computed(() => {
+    switch (presentation.value.toLowerCase()) {
+      case 'pill':
+        return 'Tableta';
+      case 'capsule':
+        return 'Cápsula';
+      case 'syrup':
+        return 'Jarabe';
+      default:
+        return presentation.value;
+    }
   });
 </script>
 
@@ -219,19 +229,8 @@
         </FormItem>
       </FormField>
       <!-- presentation -->
-      <FormField v-slot="{ componentField }" name="presentation">
-        <FormItem>
-          <FormLabel>Forma de presentacion</FormLabel>
-          <FormControl>
-            <select disabled v-bind="componentField" v-model="presentation">
-              <option value="Capsula">Capsula</option>
-              <option value="Tableta">Tableta</option>
-              <option value="Jarabe">Jarabe</option>
-            </select>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      </FormField>
+      <h1>Forma de presentación</h1>
+      <p class="text-gray-500 text-sm">{{ convertedPresentation }}</p>
       <FormField v-slot="{ componentField }" name="price">
         <FormItem>
           <FormLabel>Precio</FormLabel>
@@ -320,3 +319,4 @@
     </form>
   </div>
 </template>
+
