@@ -92,6 +92,15 @@ onMounted(fetchData);
           </Button>
     	  </RouterLink>
     	</div>
+      <!-- Descripción de la pagina  -->
+      <div class="text-gray-600 flex items-center gap-4 mt-4 text-sm mb-2 p-4 border border-gray-200 rounded shadow-sm bg-blue-50 w-1/3">
+        <div><Info class="w-5 h-5"></Info></div>
+        <div>
+          <p>
+            En esta sección, puedes explorar todos los certificados médicos emitidos a los pacientes en nuestro sistema hasta la fecha.
+          </p>
+        </div>
+      </div>
     	<DataTable :columns="columns" :data="combinedData" search-placeholder="Buscar por nombre del doctor..." search-by="patient_name" />
 		</div>
   </div>

@@ -24,6 +24,8 @@ const doctors = ref<Doctor[]>([]);
 const patients= ref<Patient[]>([]);
 const combinedData = ref<Apointments[]>([]);
 
+const showDescription = ref(true);
+
 async function fetchData(): Promise<void> {
   try {
     /* Se piden todos los registros de medical-records */
@@ -64,7 +66,9 @@ async function fetchData(): Promise<void> {
   }
 }
 
-onMounted(fetchData);
+onMounted(() => {
+  fetchData();
+});
 </script>
 
 <template>
