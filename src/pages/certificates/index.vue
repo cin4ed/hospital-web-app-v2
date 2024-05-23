@@ -101,7 +101,7 @@ onMounted(fetchData);
           </p>
         </div>
       </div>
-    	<DataTable :columns="columns" :data="combinedData" search-placeholder="Buscar por nombre del doctor..." search-by="patient_name" />
+    	<DataTable :columns="columns" :data="combinedData" search-placeholder="Buscar por nombre del doctor..." search-by="doctor_name" />
 		</div>
   </div>
 </template>
