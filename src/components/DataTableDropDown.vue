@@ -34,16 +34,21 @@
 		<DropdownMenuContent align="end">
 			<DropdownMenuLabel>Actions</DropdownMenuLabel>
 			<DropdownMenuSeparator />
-      <RouterLink :to="'/'+resource+'/'+id+'/edit'">
+      <RouterLink :to="'/'+resource+'/'+id+'/edit'" v-if="resource != 'medical-certificates'">
         <DropdownMenuItem>
           Editar
         </DropdownMenuItem>
       </RouterLink>
-      <RouterLink :to="'/'+resource+'/'+id+'/show'">
+      <RouterLink :to="'/'+resource+'/'+id+'/show'" v-if="resource != 'medical-certificates'">
         <DropdownMenuItem>
           Visualizar
         </DropdownMenuItem>
       </RouterLink>
+      <a :href="'http://127.0.0.1:8000/api/'+resource+'/'+id+'/generate-pdf'" v-if="resource == 'medical-certificates'" target="_blank">
+        <DropdownMenuItem>
+          Imprimir certificado
+        </DropdownMenuItem>
+      </a>
       <DropdownMenuItem @click="deleteElement(id)">
         Eliminar
       </DropdownMenuItem>

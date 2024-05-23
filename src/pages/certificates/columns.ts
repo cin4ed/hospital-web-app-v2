@@ -66,7 +66,7 @@ export const columns: ColumnDef<Certificates>[] = [
     cell: ({ row }) => {
       const certificate = row.original;
       return h('div', { class: 'relative'}, h(DropdownAction, {
-        resource: 'certificates',
+        resource: 'medical-certificates',
         id: certificate.id
       }))
     }
