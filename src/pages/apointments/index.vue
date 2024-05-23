@@ -17,7 +17,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-vue-next";
+import { Plus, Info } from "lucide-vue-next";
 
 const apointments = ref<Apointments[]>([]);
 const doctors = ref<Doctor[]>([]);
@@ -92,6 +92,15 @@ onMounted(fetchData);
           </Button>
     	  </RouterLink>
     	</div>
+      <!-- Descripción de la pagina  -->
+      <div class="text-gray-600 flex items-center gap-4 mt-4 text-sm mb-2 p-4 border border-gray-200 rounded shadow-sm bg-blue-50 w-1/3">
+        <div><Info class="w-5 h-5"></Info></div>
+        <div>
+          <p>
+            En esta sección, puedes explorar todas las citas médicas que se han registrado en nuestro sistema hasta la fecha.
+          </p>
+        </div>
+      </div>
     	<DataTable :columns="columns" :data="combinedData" search-placeholder="Buscar por paciente..." search-by="patient_name"/>
 		</div>
   </div>
