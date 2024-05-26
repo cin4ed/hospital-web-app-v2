@@ -52,20 +52,19 @@ async function fetchData(): Promise<void> {
     Se hace de esta manera para que la tabla no absorba los datos de otro array que ya ha sido
     utilizado antes, puesto que al parecer no se actualiza de manera reactiva despues de asignados
     los valores a la tabla por primera vez*/
-    combinedData.value = prescriptions.value.map((prescription) => {
+    combinedData.value = prescriptions.value
+    .filter(prescription => medical_records.value.some(m_R => m_R.id === prescription.medical_record_id))
+    .map((prescription) => {
       /* Buscamos los respectivos valores utilizando el id */
-
       const medical_record = medical_records.value.find(m_R => m_R.id === prescription.medical_record_id);
       const doctor = doctors.value.find(doc => doc.id === medical_record.doctor_id);
       const patient = patients.value.find(patient => patient.id === medical_record.patient_id);
 
       /* Validamos si se encuentra el doctor y el paciente, y en caso de no encontrarlo,
-      mostramos el mensaje de no encontrado
-      ...apointment, significa que estamos agregando todos los demas apointments al arreglo,
-      ademas del actual */
+      mostramos el mensaje de no encontrado */
       return {
         ...prescription,
-        medical_record: medical_record ? medical_record.id : 'Registro médico no encontrado',
+        medical_record: medical_record.id,
         doctor_name: doctor ? doctor.name : 'Doctor no encontrado',
         patient_name: patient ? patient.name : 'Paciente no encontrado'
       };
