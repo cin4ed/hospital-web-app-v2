@@ -13,13 +13,23 @@
   const router = useRouter();
 
   function deleteElement(argument: any) {
-    axios.delete(`/${props.resource}/${props.id}`)
+    if(props.resource == 'appointments'){
+      axios.delete(`/medical-records/${props.id}`)
       .then(() => {
         window.location.reload();
       })
       .catch(error => {
         console.error('Error deleting element:', error);
       });
+    }else{
+      axios.delete(`/${props.resource}/${props.id}`)
+      .then(() => {
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Error deleting element:', error);
+      });
+    }
   }
 </script>
 
