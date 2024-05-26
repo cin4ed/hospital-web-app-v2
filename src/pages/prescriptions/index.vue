@@ -20,7 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Plus, Info } from "lucide-vue-next";
 
-import { Apointments } from "../apointments/columns.ts";
+import { Apointments } from "../appointments/columns.ts";
 
 const prescriptions = ref<Prescriptions[]>([]);
 const doctors = ref<Doctor[]>([]);
