@@ -33,7 +33,7 @@ import {
             Inicio
           </RouterLink>
  -->
-          <RouterLink to='/apointments' class="flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+          <RouterLink to='/appointments' class="flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary">
             <BookMarked class='h-4 w-4' />
             Citas
           </RouterLink>
