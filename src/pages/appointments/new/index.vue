@@ -37,15 +37,21 @@ const fetchPatientData = async () => {
     const doctorsTable = doctorsRequest.data;
     const patientsTable = patientsRequest.data;
 
-    doctorsSelectValues.value = doctorsTable.map(doctor => ({
+    doctorsSelectValues.value = [{
+      value: '',
+      text: 'Por favor selecciona un doctor'
+    }].concat(doctorsTable.map(doctor => ({
       value: doctor.id,
       text: doctor.name,
-    }));
-
-    patientsSelectValues.value = patientsTable.map(patient => ({
+    })));
+    
+    patientsSelectValues.value = [{
+      value: '',
+      text: 'Por favor selecciona un paciente'
+    }].concat(patientsTable.map(patient => ({
       value: patient.id,
       text: patient.name,
-    }));
+    })));
 
     console.log(doctorsTable)
     console.log(patientsTable)
