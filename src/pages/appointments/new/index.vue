@@ -71,8 +71,8 @@ const form = useForm({
 const router = useRouter();
   const onSubmit = form.handleSubmit((values) => {
     console.log(values);
-    axios.post(`/doctors/`, values);
-    router.push(`/doctors`);
+    axios.post(`/appointments/`, values);
+    router.push(`/appointments`);
   });
 </script>
 

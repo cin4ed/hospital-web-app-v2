@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import axios from "@/lib/axios";
 import { ref, onMounted } from "vue";
-import type { Apointments } from "./columns.ts";
+import type { Appointments } from "./columns.ts";
 import type { Doctor } from "../doctors/columns.ts";
 import type { Patient } from "../patients/columns.ts";
 
-import { columns } from "@/pages/apointments/columns.ts";
+import { columns } from "@/pages/appointments/columns.ts";
 import DataTable from "@/components/ui/data-table.vue";
 
 import {
@@ -19,10 +19,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Plus, Info } from "lucide-vue-next";
 
-const apointments = ref<Apointments[]>([]);
+const appointments = ref<Appointments[]>([]);
 const doctors = ref<Doctor[]>([]);
 const patients= ref<Patient[]>([]);
-const combinedData = ref<Apointments[]>([]);
+const combinedData = ref<Appointments[]>([]);
 
 const showDescription = ref(true);
 
@@ -30,7 +30,7 @@ async function fetchData(): Promise<void> {
   try {
     /* Se piden todos los registros de medical-records */
     const response = await axios.get('/medical-records');
-    apointments.value = response.data;
+    appointments.value = response.data;
 
     /* Se piden todos los registros de doctors */
     const response1 = await axios.get('/doctors');
@@ -45,14 +45,14 @@ async function fetchData(): Promise<void> {
     Se hace de esta manera para que la tabla no absorba los datos de otro array que ya ha sido
     utilizado antes, puesto que al parecer no se actualiza de manera reactiva despues de asignados
     los valores a la tabla por primera vez*/
-    combinedData.value = apointments.value.map((apointment) => {
+    combinedData.value = appointments.value.map((apointment) => {
       /* Buscamos los respectivos valores utilizando el id */
       const doctor = doctors.value.find(doc => doc.id === apointment.doctor_id);
       const patient = patients.value.find(patient => patient.id === apointment.patient_id);
 
       /* Validamos si se encuentra el doctor y el paciente, y en caso de no encontrarlo,
       mostramos el mensaje de no encontrado
-      ...apointment, significa que estamos agregando todos los demas apointments al arreglo,
+      ...apointment, significa que estamos agregando todos los demas appointments al arreglo,
       ademas del actual */
       return {
         ...apointment,
@@ -89,7 +89,7 @@ onMounted(() => {
 		<div>
     	<div class="flex items-end justify-between">
 				<h1 class="text-3xl font-semibold">Citas</h1>
-    	  <RouterLink to='/apointments/new'>
+    	  <RouterLink to='/appointments/new'>
           <Button class="space-x-2">
             <Plus class="w-5 h-5" />
             <span>Nuevo</span>
