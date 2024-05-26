@@ -44,12 +44,22 @@
 		<DropdownMenuContent align="end">
 			<DropdownMenuLabel>Actions</DropdownMenuLabel>
 			<DropdownMenuSeparator />
-      <RouterLink :to="'/'+resource+'/'+id+'/edit'" v-if="resource != 'medical-certificates'">
+      <RouterLink :to="'/'+resource+'/'+id+'/edit'" v-if="resource != 'medical-certificates' && resource != 'medical-records'">
         <DropdownMenuItem>
           Editar
         </DropdownMenuItem>
       </RouterLink>
-      <RouterLink :to="'/'+resource+'/'+id+'/show'" v-if="resource != 'medical-certificates'">
+      <RouterLink :to="'/'+resource+'/'+id+'/show'" v-if="resource != 'medical-certificates' && resource != 'medical-records'">
+        <DropdownMenuItem>
+          Visualizar
+        </DropdownMenuItem>
+      </RouterLink>
+      <RouterLink :to="'/appointments/'+id+'/edit'" v-if="resource == 'medical-records'">
+        <DropdownMenuItem>
+          Editar
+        </DropdownMenuItem>
+      </RouterLink>
+      <RouterLink :to="'/appointments/'+id+'/show'" v-if="resource == 'medical-records'">
         <DropdownMenuItem>
           Visualizar
         </DropdownMenuItem>
