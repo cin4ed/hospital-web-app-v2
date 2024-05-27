@@ -28,14 +28,38 @@ import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
 
+const apointment_date = ref('')
+const doctor = ref(0)
+const patient = ref(0)
+
+const route = useRoute();
+const doctorId = route.params.id;
+
 const doctorsSelectValues = ref([])
 const patientsSelectValues = ref([])
 const fetchPatientData = async () => {
   try {
+    const response = await axios.get(`/medical-records/${doctorId}`);
+    const appointmentData = response.data;
+
+    console.log(appointmentData)
+
     const doctorsRequest = await axios.get(`/doctors`);
     const patientsRequest = await axios.get(`/patients`);
     const doctorsTable = doctorsRequest.data;
     const patientsTable = patientsRequest.data;
+
+    // Asignar valores a las variables reactivas
+    apointment_date.value = appointmentData.datetime;
+    doctor.value = appointmentData.doctor_id;
+    patient.value = appointmentData.patient_id;
+
+    // Establecer los valores del formulario
+    form.setValues({
+      apointment_date: appointmentData.datetime,
+      patient_name: appointmentData.doctor_id,
+      doctor_name: appointmentData.patient_id,
+    });
 
     doctorsSelectValues.value = doctorsTable.map(doctor => ({
       value: doctor.id,
@@ -46,9 +70,6 @@ const fetchPatientData = async () => {
       value: patient.id,
       text: patient.name,
     }));
-
-    console.log(doctorsTable)
-    console.log(patientsTable)
     
   } catch (error) {
     console.error('Error fetching patient data:', error);
@@ -97,7 +118,7 @@ const router = useRouter();
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
-    <h1 class="text-3xl font-semibold">Registrar cita</h1>
+    <h1 class="text-3xl font-semibold">Editar cita</h1>
     <form @submit.prevent="onSubmit" class="space-y-4">
       <!-- date -->
       <FormField v-slot="{ componentField }" name="apointment_date">
