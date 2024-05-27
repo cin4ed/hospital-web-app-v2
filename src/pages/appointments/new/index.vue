@@ -77,8 +77,8 @@ const form = useForm({
 const router = useRouter();
   const onSubmit = form.handleSubmit((values) => {
     console.log(values);
-    axios.post(`/appointments/`, values);
-    router.push(`/appointments`);
+    axios.post(`/medical-records/`, values);
+    /* router.push(`/appointments`); */
   });
 </script>
 
@@ -111,7 +111,7 @@ const router = useRouter();
           <FormLabel>Fecha de la cita</FormLabel>
           <FormControl>
             <Input
-              type="date"
+              type="datetime-local"
               v-bind="componentField"
             />
           </FormControl>
