@@ -51,7 +51,7 @@ export const columns: ColumnDef<Medicine>[] = [
   },
   {
     accessorKey: "quantity_in_stock",
-    header: "Stock",
+    header: "Existencias",
   },
   {
     accessorKey: "price",
