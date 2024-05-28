@@ -55,8 +55,8 @@ export const columns: ColumnDef<Prescriptions>[] = [
     header: "Nombre del Doctor",
   },    
   {
-    accessorKey: "patient_name",
-    header: "Nombre del Paciente",
+    accessorKey: "patient_lastname",
+    header: "Apellidos del Paciente",
   },    
   {
     id: 'actions',

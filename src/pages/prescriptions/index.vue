@@ -66,7 +66,7 @@ async function fetchData(): Promise<void> {
         ...prescription,
         medical_record: medical_record.id,
         doctor_name: doctor ? doctor.name : 'Doctor no encontrado',
-        patient_name: patient ? patient.name : 'Paciente no encontrado'
+        patient_lastname: patient ? patient.lastname : 'Paciente no encontrado'
       };
     });
 
@@ -111,7 +111,7 @@ onMounted(fetchData);
           </p>
         </div>
       </div>
-    	<DataTable :columns="columns" :data="combinedData" search-placeholder="Buscar por nombre del paciente..." search-by="patient_name" />
+    	<DataTable :columns="columns" :data="combinedData" search-placeholder="Buscar por apellido del paciente..." search-by="patient_lastname" />
 		</div>
   </div>
 </template>
