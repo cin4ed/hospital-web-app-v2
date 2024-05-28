@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import axios from "@/lib/axios";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
+import { Textarea } from '@/components/ui/textarea'
 
 import {
   Breadcrumb,
@@ -184,7 +185,7 @@ const addNewMedicine = () => {
         <FormItem>
           <FormLabel>Descripción de la receta</FormLabel>
           <FormControl>
-            <Input type="text" v-bind="componentField" />
+            <Textarea class="min-h-32" type="text" v-bind="componentField" />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -194,11 +195,11 @@ const addNewMedicine = () => {
         <FormItem>
           <FormLabel>Consulta</FormLabel>
           <FormControl>
-            <select v-bind="componentField">
+            <Select v-bind="componentField">
               <option v-for="record in medicalRecordsSelectValues" :key="record.value" :value="record.value">
                 {{ record.text }}
               </option>
-            </select>
+            </Select>
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -214,7 +215,7 @@ const addNewMedicine = () => {
                 {{ medicine.name }}
               </option>
             </select>
-            <input type="number" placeholder="Dosis" class="border-2 border-gray-200 rounded-md p-2" v-model="selectedDoseVar" />
+            <Input type="number" placeholder="Dosis" class="border-2 border-gray-200 rounded-md p-2" v-model="selectedDoseVar" />
             <select class="border-2 border-gray-200 rounded-md p-2" v-model="selectedTimePeriodVar" >
               <option v-for="time in periodOfTimeSelectValues" :key="time.value" :value="time.value">
                 {{ time.name }}
