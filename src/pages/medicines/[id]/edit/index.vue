@@ -143,7 +143,7 @@ import { Button } from "@/components/ui/button";
     values.dosage_strength = values.dosage_strength.toString();
     values.supplier_contact = values.supplier_contact.toString();
     axios.put(`/medicines/${medicineId}`, values);
-    /* router.push(`/medicines`); */
+    router.push(`/medicines`);
   });
 </script>
 

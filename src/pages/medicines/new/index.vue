@@ -81,7 +81,7 @@ import { Button } from "@/components/ui/button";
     values.dosage_strength = values.dosage_strength.toString();
     values.price = values.price.toString();
     axios.post(`/medicines/`, values);
-    /* router.push(`/medicines`); */
+    router.push(`/medicines`);
   });
 </script>
 
