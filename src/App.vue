@@ -29,14 +29,26 @@
     validationSchema: formSchema,
   });
 
-  const onSubmit = form.handleSubmit((values) => {
-    console.log(values);
-  });
-
   let user = localStorage.getItem('user')
   const loadLayout = ref(false)
   if(user)
     loadLayout.value = true
+
+  const fullUrl = 'http://127.0.0.1:8000/login'
+  const fullUrl2 = 'http://127.0.0.1:8000/sanctum/csrf-cookie'
+
+  const onSubmit = form.handleSubmit((values) => {
+    axios.get(fullUrl2).then(response => {
+      axios.post(fullUrl, values)
+      .then(response => {
+        localStorage.setItem('user', "Exito")
+        loadLayout.value = true
+      })
+      .catch(error => {
+        console.error('Error en el login:', error);
+      });
+    });
+  });
 </script>
 
 <template>
