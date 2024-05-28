@@ -15,6 +15,16 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+
+import {
   FormControl,
   FormDescription,
   FormField,
@@ -27,22 +37,39 @@ import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
 
-const formSchema = toTypedSchema(
-  z.object({
-    name: z.string(),
-    active_ingredients: z.string(),
-    dosage_strength: z.string(),
-    dosage_unit: z.string(),
-    prescription_info: z.string(),
-    presentation: z.enum(["pill", "capsule", "syrup"]),
-    price: z.string(),
-    quantity_in_stock: z.number().int(),
-    supplier_name: z.string(),
-    supplier_contact: z.string(),
-    supplier_cost: z.number(),
-    description: z.string().optional(),
-  })
-);
+  const formSchema = toTypedSchema(
+    z.object({
+      name: z.string(),
+      active_ingredients: z.string(),
+      dosage_strength: z.number(),
+      dosage_unit: z.enum([
+        'mg',
+        'gr',
+        'ml',
+        'mcg',
+        'drops'
+      ]),
+      prescription_info: z.string(),
+      presentation: z.enum(["pill", "capsule", "syrup"]),
+      price: z.number(),
+      quantity_in_stock: z.number().int(),
+      supplier_name: z.string(),
+      supplier_contact: z.string(),
+      supplier_cost: z.number(),
+      description: z.string().optional(),
+    })
+  );
+
+  const dosageUnits = [
+    { value: 'mg', text: 'Milligrams (mg)' },
+    { value: 'gr', text: 'Grams (gr)' },
+    { value: 'ml', text: 'Milliliters (ml)' },
+    { value: 'mcg', text: 'Micrograms (mcg)' },
+    { value: 'units', text: 'Units' },
+    { value: 'tablets', text: 'Tablets' },
+    { value: 'capsules', text: 'Capsules' },
+    { value: 'drops', text: 'Drops' }
+  ];
 
   const form = useForm({
     validationSchema: formSchema,
@@ -51,8 +78,10 @@ const formSchema = toTypedSchema(
   const router = useRouter();
   const onSubmit = form.handleSubmit((values) => {
     console.log(values);
+    values.dosage_strength = values.dosage_strength.toString();
+    values.price = values.price.toString();
     axios.post(`/medicines/`, values);
-    router.push(`/medicines`);
+    /* router.push(`/medicines`); */
   });
 </script>
 
@@ -115,7 +144,7 @@ const formSchema = toTypedSchema(
           <FormLabel>Dósis</FormLabel>
           <FormControl>
             <Input
-                type="text"
+                type="number"
                 placeholder="500"
                 v-bind="componentField"
             />
@@ -128,13 +157,20 @@ const formSchema = toTypedSchema(
       <FormField v-slot="{ componentField }" name="dosage_unit">
         <FormItem>
           <FormLabel>Unidad</FormLabel>
-          <FormControl>
-            <Input
-                type="text"
-                placeholder="mg"
-                v-bind="componentField"
-            />
-          </FormControl>
+          <Select v-bind="componentField">
+            <FormControl>
+              <SelectTrigger>
+                <SelectValue placeholder="Seleccione una unidad" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem v-for="record in dosageUnits" :key="record.key" :value="record.value">
+                  {{ record.text }}
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
           <FormDescription>Dosage unit.</FormDescription>
           <FormMessage />
         </FormItem>
@@ -158,14 +194,26 @@ const formSchema = toTypedSchema(
       <FormField v-slot="{ componentField }" name="presentation">
         <FormItem>
           <FormLabel>Presentación</FormLabel>
-          <FormControl>
-            <select v-bind="componentField">
-              <option>Seleccione una opcion</option>
-              <option value="pill">Cápsula</option>
-              <option value="capsule">Tableta</option>
-              <option value="syrup">Jarabe</option>
-            </select>
-          </FormControl>
+          <Select v-bind="componentField">
+            <FormControl>
+              <SelectTrigger>
+                <SelectValue placeholder="Seleccione una presentación" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="pill">
+                  Cápsula
+                </SelectItem>
+                <SelectItem value="capsule">
+                  Tableta
+                </SelectItem>
+                <SelectItem value="syrup">
+                  Jarabe
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
           <FormDescription>Presentación de la medicina.</FormDescription>
           <FormMessage />
         </FormItem>
@@ -176,7 +224,7 @@ const formSchema = toTypedSchema(
           <FormLabel>Precio</FormLabel>
           <FormControl>
             <Input
-                type="text"
+                type="number"
                 placeholder="100"
                 v-bind="componentField"
             />
