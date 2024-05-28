@@ -111,9 +111,9 @@
   });
 
   const router = useRouter();
-  const onSubmit = form.handleSubmit((values) => {
-    router.push(`/patients`);
-  });
+  const goBack = () => {
+    router.push(`/medicines`);
+  };
 
   const convertedPresentation = computed(() => {
     switch (presentation.value.toLowerCase()) {
@@ -315,7 +315,7 @@
           <FormMessage />
         </FormItem>
       </FormField>
-      <Button type="submit">Regresar</Button>
+      <Button type="button" @click="goBack()">Regresar</Button>
     </form>
   </div>
 </template>
