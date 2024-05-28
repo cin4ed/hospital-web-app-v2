@@ -30,8 +30,22 @@ const medicalRecordsSelectValues = ref([]);
 const patientsSelectValues = ref([]);
 const doctorsSelectValues = ref([]);
 const medicinesSelectValues = ref([]);
+const periodOfTimeSelectValues = ref([
+      { value: 0, name: "Seleccione un periodo" },
+      { value: "4 horas", name: "4 horas" },
+      { value: "6 horas", name: "6 horas" },
+      { value: "8 horas", name: "8 horas" },
+      { value: "12 hohorasurs", name: "12 horas" },
+      { value: "Cada día", name: "Cada día" },
+      { value: "A la semana", name: "A la semana" }
+    ]);
 const selectedMedicines = ref([]);
 const selectedMedicineNames = ref([]);
+
+const selectedMedicineVar = ref(null);
+const selectedDoseVar = ref("");
+const selectedTimePeriodVar = ref(0);
+const medicinesTable = ref([]);
 
 const fetchPatientData = async () => {
   try {
@@ -40,9 +54,15 @@ const fetchPatientData = async () => {
     const patientsRequest = await axios.get(`/patients`);
     const doctorsTable = doctorsRequest.data;
     const patientsTable = patientsRequest.data;
-    const medicinesTable = medicinesRequest.data;
+    medicinesTable.value = medicinesRequest.data;
 
-    medicinesSelectValues.value = medicinesTable;
+    medicinesSelectValues.value = [
+      {
+        "id": null,
+        "name": "Seleccione un medicamento"
+      },
+      ...medicinesTable.value
+    ];
 
     doctorsSelectValues.value = doctorsTable.map(doctor => ({
       value: doctor.id,
@@ -72,6 +92,11 @@ const fetchPatientData = async () => {
       text: `${record.datetime} - ${patientLookup[record.patient_id]} - ${doctorLookup[record.doctor_id]}`,
     }));
 
+    medicalRecordsSelectValues.value.unshift({
+      value: null,
+      text: "Seleccione una cita"
+    });
+
   } catch (error) {
     console.error('Error fetching patient data:', error);
   }
@@ -92,22 +117,32 @@ const form = useForm({
 
 const router = useRouter();
 const onSubmit = form.handleSubmit((values) => {
-  values.medicines = selectedMedicines.value;
+  values.medicines = selectedMedicineNames.value;
   console.log(values);
-  axios.post(`/prescriptions/`, values).then(() => {
+  /* axios.post(`/prescriptions/`, values).then(() => {
     router.push(`/prescriptions`);
-  });
+  }); */
 });
 
-const handleMedicineChange = (event) => {
-  const medicineId = parseInt(event.target.value);
-  if (!selectedMedicines.value.some(med => med.medicine_id === medicineId)) {
-    selectedMedicines.value.push({
-      medicine_id: medicineId,
-      indications: 'x',
-    });
-    const medicine = medicinesSelectValues.value.find(m => m.id === medicineId);
-    selectedMedicineNames.value.push(medicine.name);
+const addNewMedicine = () => {
+  if (selectedMedicineVar.value && selectedDoseVar.value && selectedTimePeriodVar.value) {
+    const selectedMedicineId = selectedMedicineVar.value;
+    const selectedMedicine = medicinesTable.value.find(medicine => medicine.id === selectedMedicineId);
+
+    if (selectedMedicine) {
+      selectedMedicineNames.value.push({
+        medicine_id: selectedMedicine.id,
+        medicine_name: selectedMedicine.name,
+        dose: selectedDoseVar.value,
+        timePeriod: selectedTimePeriodVar.value
+      });
+
+      selectedMedicineVar.value = null;
+      selectedDoseVar.value = "";
+      selectedTimePeriodVar.value = 0;
+    } else {
+      console.error("El medicamento seleccionado no se encontró en la tabla de medicamentos.");
+    }
   }
 };
 </script>
@@ -169,20 +204,30 @@ const handleMedicineChange = (event) => {
         </FormItem>
       </FormField>
       <!-- medicines -->
-      <div class="flex gap-52">
-        <div>
+      <div class="flex gap-4">
+        <div class="border-2 border-gray-300 p-2 rounded-sm">
           <h1 class="font-bold">Medicinas</h1>
           <p>Seleccione una y se agregara a la lista automaticamente</p>
-          <select @change="handleMedicineChange" class="border-2 border-gray-200 rounded-md p-2">
-            <option v-for="medicine in medicinesSelectValues" :key="medicine.id" :value="medicine.id">
-              {{ medicine.name }}
-            </option>
-          </select>
+          <div class="flex gap-4">
+            <select class="border-2 border-gray-200 rounded-md p-2" v-model="selectedMedicineVar">
+              <option v-for="medicine in medicinesSelectValues" :key="medicine.id" :value="medicine.id">
+                {{ medicine.name }}
+              </option>
+            </select>
+            <input type="number" placeholder="Dosis" class="border-2 border-gray-200 rounded-md p-2" v-model="selectedDoseVar" />
+            <select class="border-2 border-gray-200 rounded-md p-2" v-model="selectedTimePeriodVar" >
+              <option v-for="time in periodOfTimeSelectValues" :key="time.value" :value="time.value">
+                {{ time.name }}
+              </option>
+            </select>
+            <Button class="bg-gray-500" type="button" @click="addNewMedicine()">Confirmar</Button>
+          </div>
         </div>
         <div>
           <h1 class="font-semibold">Medicinas seleccionadas</h1>
           <ul>
-            <li v-for="name in selectedMedicineNames" :key="name">{{ name }}</li>
+            <li v-for="selected in selectedMedicineNames" :key="name"
+            class="border-2 border-gray-300 p-2 rounded-sm">{{ selected.name }}, Dosis: {{ selected.dose }}, Cada: {{ selected.timePeriod }}</li>
           </ul>
         </div>
       </div>
