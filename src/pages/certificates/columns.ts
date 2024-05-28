@@ -1,9 +1,11 @@
 import { h } from "vue";
 import DropdownAction from "@/components/DataTableDropDown.vue";
 import type { ColumnDef } from "@tanstack/vue-table";
+import { Button } from "@/components/ui/button";
+import { ArrowUpDown } from "lucide-vue-next";
 // import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
 // import { Button } from "@/components/ui/button";
-// import { DateAndTimeSegmentObj } from "node_modules/radix-vue/dist/shared/date";
+import { DateAndTimeSegmentObj } from "node_modules/radix-vue/dist/shared/date";
 
 export type Certificates = {
   id: number;
@@ -25,7 +27,31 @@ export type Certificates = {
 export const columns: ColumnDef<Certificates>[] = [
   {
     accessorKey: "date",
-    header: "Fecha de emisión",
+    header: ({ column }) => {
+      return h(Button, {
+        variant: "ghost",
+        onClick: () => {
+          const isSorted = column.getIsSorted();
+          if (isSorted === "asc") {
+            column.toggleSorting(true);
+          } else if (isSorted === "desc") {
+            column.clearSorting();
+          } else {
+            column.toggleSorting(false);
+          }
+        },
+      }, () => ["Fecha de emisión", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
+    },
+    cell: ({ row }) => {
+      const certificate = row.original;
+      const date = new Date(certificate.date);
+      const formattedDate = date.toLocaleDateString('es-ES', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+      return h("div", { class: "text-center capitalize" }, formattedDate);
+    },
   },  
   {
     accessorKey: "doctor_name",

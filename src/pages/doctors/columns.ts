@@ -22,12 +22,21 @@ export const columns: ColumnDef<Doctor>[] = [
     header: ({ column }) => {
       return h(Button, {
         variant: "ghost",
-        onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-      }, () => ["Nombre", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })])
+        onClick: () => {
+          const isSorted = column.getIsSorted();
+          if (isSorted === "asc") {
+            column.toggleSorting(true);
+          } else if (isSorted === "desc") {
+            column.clearSorting();
+          } else {
+            column.toggleSorting(false);
+          }
+        },
+      }, () => ["Nombre", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]);
     },
     cell: ({ row }) => {
-      const doctor = row.original
-      return h("div", {class: "capitalize"}, doctor.name );
+      const doctor = row.original;
+      return h("div", { class: "capitalize" }, doctor.name);
     },
     size: 50,
   },
