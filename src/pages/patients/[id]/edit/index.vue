@@ -16,6 +16,16 @@
   } from "@/components/ui/breadcrumb";
 
   import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+  } from '@/components/ui/select'
+
+  import {
     FormControl,
     FormDescription,
     FormField,
@@ -224,18 +234,41 @@
       <FormField v-slot="{ componentField }" name="blood_type">
         <FormItem>
           <FormLabel>Tipo de sangre</FormLabel>
-          <FormControl>
-            <select v-bind="componentField">
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
-            </select>
-          </FormControl>
+          <Select v-bind="componentField">
+            <FormControl>
+              <SelectTrigger>
+                <SelectValue placeholder="Seleccione un tipo de sangre" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="A+">
+                  A+
+                </SelectItem>
+                <SelectItem value="A-">
+                  A-
+                </SelectItem>
+                <SelectItem value="B+">
+                  B+
+                </SelectItem>
+                <SelectItem value="B-">
+                  B-
+                </SelectItem>
+                <SelectItem value="AB+">
+                  AB+
+                </SelectItem>
+                <SelectItem value="AB-">
+                  AB-
+                </SelectItem>
+                <SelectItem value="O+">
+                  O+
+                </SelectItem>
+                <SelectItem value="O-">
+                  O-
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
           <FormMessage />
         </FormItem>
       </FormField>

@@ -16,6 +16,16 @@
   } from "@/components/ui/breadcrumb";
 
   import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+  } from '@/components/ui/select'
+
+  import {
     FormControl,
     FormDescription,
     FormField,
