@@ -38,7 +38,7 @@
   const fullUrl2 = 'http://127.0.0.1:8000/sanctum/csrf-cookie'
 
   const onSubmit = form.handleSubmit((values) => {
-    axios.get(fullUrl2).then(response => {
+  axios.get(fullUrl2).then(response => {
       axios.post(fullUrl, values)
       .then(response => {
         localStorage.setItem('user', "Exito")

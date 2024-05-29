@@ -115,11 +115,11 @@ const form = useForm({
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Nuevo</BreadcrumbPage>
+          <BreadcrumbPage>Editar</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
-    <h1 class="text-3xl font-semibold">Edita un nuevo doctor</h1>
+    <h1 class="text-3xl font-semibold">Edita un doctor</h1>
     <form @submit.prevent="onSubmit" class="space-y-4">
       <!-- name -->
       <FormField v-slot="{ componentField }" name="name">
