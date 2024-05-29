@@ -5,6 +5,7 @@
   import * as z from "zod";
   import { useRouter, useRoute } from 'vue-router';
   import { ref } from "vue";
+  import { toast } from 'vue-sonner'
 
   import {
     Breadcrumb,
@@ -115,11 +116,23 @@
   });
 
   const router = useRouter();
-  const onSubmit = form.handleSubmit((values) => {
-    values.phone_number = values.phone_number.toString()
-    axios.put(`/patients/${patientId}`, values);
+
+  const onSubmit = form.handleSubmit(async (values) => {
+  try {
+    await axios.put(`/patients/${patientId}`, values);
+    toast.success('El paciente se ha editado con éxito');
     router.push(`/patients`);
-  });
+  } catch (error) {
+    console.error("Error al editar el paciente:", error);
+    if (error.response && error.response.data && error.response.data.message) {
+      toast.error('Ha ocurrido un error al intentar editar el paciente', {
+        description: `${error.response.data.message}`,
+      });
+    } else {
+      toast.error('Ha ocurrido un error desconocido al intentar editar el paciente');
+    }
+  }
+});
 const turnBack = () => {
     router.push(`/patients`);
   };

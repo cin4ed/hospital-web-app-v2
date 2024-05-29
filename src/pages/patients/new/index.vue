@@ -4,6 +4,7 @@ import axios from "@/lib/axios";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { useRouter } from 'vue-router';
+  import { toast } from 'vue-sonner'
 
 import {
   Breadcrumb,
@@ -58,9 +59,21 @@ const formSchema = toTypedSchema(
   });
 
   const router = useRouter();
-  const onSubmit = form.handleSubmit((values) => {
-    axios.post(`/patients`, values);
-    router.push(`/patients`);
+  const onSubmit = form.handleSubmit(async (values) => {
+    try {
+      await axios.post(`/patients`, values);
+      toast.success('El paciente se ha creado con éxito');
+      router.push(`/patients`);
+    } catch (error) {
+      console.error("Error al crear el paciente:", error);
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error('Ha ocurrido un error al intentar crear el paciente', {
+          description: `${error.response.data.message}`,
+        });
+      } else {
+        toast.error('Ha ocurrido un error desconocido al intentar crear el paciente');
+      }
+    }
   });
 const turnBack = () => {
     router.push(`/patients`);
