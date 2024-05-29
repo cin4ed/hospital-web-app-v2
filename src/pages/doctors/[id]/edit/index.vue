@@ -17,6 +17,18 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from '@/components/ui/alert-dialog'
+
+import {
   FormControl,
   // FormDescription,
   FormField,
@@ -253,7 +265,36 @@ const form = useForm({
         </FormItem>
       </FormField>
       <div class="flex gap-2">
-        <Button type="submit">Guardar</Button>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Button type="button">Editar</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>¿Estás completamente seguro de querer editar este registro?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Esta acción solo puede deshacerse volviendo a editar el elemento. Debes asegurarte de que todos los datos 
+                son capturados de manera correcta para evitar cualquier inconveniente a la hora de utilizar la información.
+              </AlertDialogDescription>
+              <p class="text-black font-semibold text-lg">Datos del elemento:</p>
+              <div class="overflow-auto max-h-96">
+                <span class="font-semibold">Nombre: </span><span>{{ form.values.name }}</span><br>
+                <span class="font-semibold">Apellido: </span><span>{{ form.values.lastname }}</span><br>
+                <span class="font-semibold">Especialidad: </span><span>{{ form.values.speciality }}</span><br>
+                <span class="font-semibold">Admisión: </span><span>{{ form.values.admission_date }}</span><br>
+                <span class="font-semibold">Cédula: </span><span>{{ form.values.professional_id }}</span><br>
+                <span class="font-semibold">Número de teléfono: </span><span>{{ form.values.phone_number }}</span><br>
+                <span class="font-semibold">Correo electrónico: </span><span>{{ form.values.email }}</span><br>
+              </div>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction>
+                <Button type="submit" @click="onSubmit">Confirmar</Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
         <Button type="button" class="bg-red-500" @click="turnBack">Cancelar</Button>
       </div>
     </form>
