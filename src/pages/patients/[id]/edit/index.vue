@@ -86,8 +86,12 @@
 
   const formSchema = toTypedSchema(
   z.object({
-      name: z.string(),
-      lastname: z.string(),
+      name: z.string().regex(/^[a-zA-Z\s]+$/, {
+        message: "El nombre solo puede contener letras y espacios",
+      }),
+      lastname: z.string().regex(/^[a-zA-Z\s]+$/, {
+        message: "El nombre solo puede contener letras y espacios",
+      }),
       birth_date: z.string(),
       curp: z.string().length(18, {
         message: "La CURP debe tener exactamente 18 caracteres",
