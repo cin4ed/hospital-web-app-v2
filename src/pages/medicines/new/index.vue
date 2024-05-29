@@ -4,6 +4,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { useRouter, useRoute } from 'vue-router';
 import axios from "@/lib/axios";
+import { toast } from 'vue-sonner'
 
 import {
   Breadcrumb,
@@ -60,7 +61,12 @@ import { Button } from "@/components/ui/button";
       supplier_name: z.string().regex(/^[a-zA-Z\s]+$/, {
         message: "El nombre solo puede contener letras y espacios",
       }),
-      supplier_contact: z.number(),
+      supplier_contact: z.string().length(10, {
+        message: "El número de teléfono debe tener exactamente 10 dígitos",
+      })
+      .regex(/^\d{10}$/, {
+        message: "El número de teléfono solo puede contener dígitos",
+      }),
       supplier_cost: z.number(),
       description: z.string().optional(),
     })
@@ -71,9 +77,6 @@ import { Button } from "@/components/ui/button";
     { value: 'gr', text: 'Grams (gr)' },
     { value: 'ml', text: 'Milliliters (ml)' },
     { value: 'mcg', text: 'Micrograms (mcg)' },
-    { value: 'units', text: 'Units' },
-    { value: 'tablets', text: 'Tablets' },
-    { value: 'capsules', text: 'Capsules' },
     { value: 'drops', text: 'Drops' }
   ];
 
@@ -82,13 +85,24 @@ import { Button } from "@/components/ui/button";
   });
 
   const router = useRouter();
-  const onSubmit = form.handleSubmit((values) => {
-    console.log(values);
-    values.supplier_contact = values.supplier_contact.toString();
-    values.dosage_strength = values.dosage_strength.toString();
-    values.price = values.price.toString();
-    axios.post(`/medicines/`, values);
-    router.push(`/medicines`);
+  const onSubmit = form.handleSubmit(async (values) => {
+    values.dosage_strength = values.dosage_strength.toString()
+    values.supplier_contact = values.supplier_contact.toString()
+    try {
+      console.log(values);
+      await axios.post(`/medicines/`, values);
+      toast.success('Su registro se ha agregado con éxito');
+      router.push(`/doctors`);
+    } catch (error) {
+      console.error("Error al crear su elemento:", error);
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error('Ha ocurrido un error al intentar agregar un nuevo registro', {
+          description: `${error.response.data.message}`,
+        });
+      } else {
+        toast.error('Ha ocurrido un error desconocido al intentar agregar un nuevo registro');
+      }
+    }
   });
   const turnBack = () => {
     router.push(`/medicines`);
@@ -279,7 +293,7 @@ import { Button } from "@/components/ui/button";
           <FormLabel>Contacto del proveedor</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="text"
                 placeholder="ABC Pharmaceuticals"
                 v-bind="componentField"
             />
