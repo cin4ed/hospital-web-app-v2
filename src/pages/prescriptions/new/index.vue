@@ -154,6 +154,9 @@ const addNewMedicine = () => {
     }
   }
 };
+const turnBack = () => {
+    router.push(`/medicines`);
+  };
 </script>
 
 <template>
@@ -254,7 +257,10 @@ const addNewMedicine = () => {
           </ul>
         </div>
       </div>
-      <Button type="submit">Guardar</Button>
+      <div class="flex gap-2">
+        <Button type="submit">Guardar</Button>
+        <Button type="button" class="bg-red-500" @click="turnBack">Cancelar</Button>
+      </div>
     </form>
   </div>
 </template>

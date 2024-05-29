@@ -76,6 +76,7 @@ async function fetchData(): Promise<void> {
 }
 
 onMounted(fetchData);
+
 </script>
 
 <template>
