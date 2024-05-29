@@ -4,6 +4,8 @@ import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import axios from "@/lib/axios";
 import { ref, onMounted } from "vue";
+import { toast } from 'vue-sonner';
+import { useRouter, useRoute } from 'vue-router';
 
 import {
   Breadcrumb,
@@ -85,16 +87,23 @@ const form = useForm({
   validationSchema: formSchema,
 });
 
-const onSubmit = form.handleSubmit((values) => {
-  console.log(values)
-  axios.post(`/medical-certificates/`, values)
-    .then(response => {
-      console.log('Datos enviados con éxito:', response.data);
-      /* router.push(`/appointments`); */
-    })
-    .catch(error => {
-      console.error('Error al enviar los datos:', error);
-    });
+const router = useRouter();
+const onSubmit = form.handleSubmit(async (values) => {
+  try {
+    console.log(values);
+    await axios.post(`/medical-certificates/`, values);
+    toast.success('Su registro se ha agregado con éxito');
+    router.push(`/certificates`);
+  } catch (error) {
+    console.error("Error al crear su elemento:", error);
+    if (error.response && error.response.data && error.response.data.message) {
+      toast.error('Ha ocurrido un error al intentar agregar un nuevo registro', {
+        description: `${error.response.data.message}`,
+      });
+    } else {
+      toast.error('Ha ocurrido un error desconocido al intentar agregar un nuevo registro');
+    }
+  }
 });
 const turnBack = () => {
     router.push(`/certificates`);
