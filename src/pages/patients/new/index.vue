@@ -32,8 +32,19 @@ const formSchema = toTypedSchema(
       name: z.string(),
       lastname: z.string(),
       birth_date: z.string(),
+      curp: z.string().length(18, {
+        message: "La CURP debe tener exactamente 18 caracteres",
+      })
+      .regex(/^[a-zA-Z0-9]+$/, {
+        message: "La CURP solo puede contener letras y números",
+      }),
       affiliation_date: z.string(),
-      phone_number: z.string(),
+      phone_number: z.string().length(10, {
+        message: "El número de teléfono debe tener exactamente 10 dígitos",
+      })
+      .regex(/^\d{10}$/, {
+        message: "El número de teléfono solo puede contener dígitos",
+      }),
       blood_type: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
     })
   );
@@ -44,7 +55,6 @@ const formSchema = toTypedSchema(
 
   const router = useRouter();
   const onSubmit = form.handleSubmit((values) => {
-    console.log(values);
     axios.post(`/patients`, values);
     router.push(`/patients`);
   });
@@ -124,6 +134,19 @@ const formSchema = toTypedSchema(
             <Input
                 type="date"
                 placeholder="mg"
+                v-bind="componentField"
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
+      <FormField v-slot="{ componentField }" name="curp">
+        <FormItem>
+          <FormLabel>CURP del paciente</FormLabel>
+          <FormControl>
+            <Input
+                type="text"
+                placeholder="CURP"
                 v-bind="componentField"
             />
           </FormControl>

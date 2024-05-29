@@ -43,6 +43,10 @@ export const columns: ColumnDef<Patient>[] = [
     header: "Apellidos",
   },
   {
+    accessorKey: "curp",
+    header: "CURP",
+  },
+  {
     accessorKey: "birth_date",
     header: "Fecha de nacimiento",
   },

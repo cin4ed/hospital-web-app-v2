@@ -40,6 +40,7 @@
   const affiliation_date = ref('')
   const phone_number = ref(0)
   const blood_type = ref(0)
+  const curp = ref(0)
   const bloodTypeEnum = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
   const fetchPatientData = async () => {
@@ -52,13 +53,15 @@
       affiliation_date.value = patientData.value.affiliation_date
       phone_number.value = formatPhoneNumber(patientData.value.phone_number);
       blood_type.value = patientData.value.blood_type;
+      curp.value = patientData.value.curp
       form.setValues({
         name: patientData.value.name,
         lastname: patientData.value.lastname,
         birth_date: patientData.value.birth_date,
         affiliation_date: patientData.value.affiliation_date,
-        phone_number: parseInt(formatPhoneNumber(patientData.value.phone_number)),
+        phone_number: (formatPhoneNumber(patientData.value.phone_number)),
         blood_type: patientData.value.blood_type,
+        curp: patientData.value.curp
       });
     } catch (error) {
       console.error('Error fetching patient data:', error);
@@ -72,12 +75,23 @@
   };
 
   const formSchema = toTypedSchema(
-    z.object({
+  z.object({
       name: z.string(),
       lastname: z.string(),
       birth_date: z.string(),
+      curp: z.string().length(18, {
+        message: "La CURP debe tener exactamente 18 caracteres",
+      })
+      .regex(/^[a-zA-Z0-9]+$/, {
+        message: "La CURP solo puede contener letras y números",
+      }),
       affiliation_date: z.string(),
-      phone_number: z.number(),
+      phone_number: z.string().length(10, {
+        message: "El número de teléfono debe tener exactamente 10 dígitos",
+      })
+      .regex(/^\d{10}$/, {
+        message: "El número de teléfono solo puede contener dígitos",
+      }),
       blood_type: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
     })
   );
@@ -178,13 +192,26 @@
           <FormMessage />
         </FormItem>
       </FormField>
+      <FormField v-slot="{ componentField }" name="curp">
+        <FormItem>
+          <FormLabel>CURP del paciente</FormLabel>
+          <FormControl>
+            <Input
+                type="text"
+                placeholder="CURP"
+                v-bind="componentField"
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
       <!-- prescription info -->
       <FormField v-slot="{ componentField }" name="phone_number">
         <FormItem>
           <FormLabel>Número telefonico</FormLabel>
           <FormControl>
             <Input
-                type="number"
+                type="text"
                 placeholder="placeholder"
                 v-bind="componentField"
                 v-model="phone_number"

@@ -41,6 +41,7 @@
   const phone_number = ref(0)
   const blood_type = ref(0)
   const bloodTypeEnum = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+  const curp = ref(0)
 
   const fetchPatientData = async () => {
     try {
@@ -51,6 +52,7 @@
       birth_date.value = patientData.value.birth_date
       affiliation_date.value = patientData.value.affiliation_date
       phone_number.value = formatPhoneNumber(patientData.value.phone_number);
+      curp.value = patientData.value.curp
       blood_type.value = patientData.value.blood_type;
       form.setValues({
         name: patientData.value.name,
@@ -59,6 +61,7 @@
         affiliation_date: patientData.value.affiliation_date,
         phone_number: parseInt(formatPhoneNumber(patientData.value.phone_number)),
         blood_type: patientData.value.blood_type,
+        curp: patientData.value.curp
       });
     } catch (error) {
       console.error('Error fetching patient data:', error);
@@ -177,6 +180,20 @@
                 v-bind="componentField"
                 v-model="affiliation_date"
                 disabled 
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
+      <FormField v-slot="{ componentField }" name="curp">
+        <FormItem>
+          <FormLabel>CURP del paciente</FormLabel>
+          <FormControl>
+            <Input
+                type="text"
+                placeholder="CURP"
+                v-bind="componentField"
+                disabled
             />
           </FormControl>
           <FormMessage />
