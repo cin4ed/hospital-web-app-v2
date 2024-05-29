@@ -148,7 +148,7 @@ const handleMedicineChange = (event) => {
   }
 };
 const turnBack = () => {
-    router.push(`/medicines`);
+    router.push(`/prescriptions`);
   };
 </script>
 

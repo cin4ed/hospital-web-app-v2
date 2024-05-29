@@ -155,7 +155,7 @@ const addNewMedicine = () => {
   }
 };
 const turnBack = () => {
-    router.push(`/medicines`);
+    router.push(`/prescriptions`);
   };
 </script>
 

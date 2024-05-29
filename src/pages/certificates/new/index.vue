@@ -97,7 +97,7 @@ const onSubmit = form.handleSubmit((values) => {
     });
 });
 const turnBack = () => {
-    router.push(`/medicines`);
+    router.push(`/certificates`);
   };
 </script>
 
