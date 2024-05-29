@@ -35,6 +35,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { TreeNodeValueStatic } from "unplugin-vue-router/types";
 
 const route = useRoute();
 const patientId = route.params.id;
@@ -62,18 +63,14 @@ const fetchPatientData = async () => {
     const patientsTable = patientsRequest.data;
     const medicinesTable = medicinesRequest.data;
 
-    medical_record_id.value = medicineData.value.medical_record_id;
+    medical_record_id.value = medicineData.value.medical_record_id.toString();
     notes.value = medicineData.value.notes;
     date.value = medicineData.value.date;
 
-    console.log(medicineData.value)
-    console.log(medical_record_id.value)
-    console.log(notes.value)
-    console.log(date.value)
     form.setValues({
       date: medicineData.value.date,
       notes: medicineData.value.notes,
-      medical_record_id: medicineData.value.medical_record_id,
+      medical_record_id: medicineData.value.medical_record_id.toString(),
     });
 
     medicinesSelectValues.value = medicinesTable;
@@ -104,6 +101,7 @@ const fetchPatientData = async () => {
     medicalRecordsSelectValues.value = medicalRecordsTable
     .sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
     .map(record => ({
+      id: `${record.id}`.toString(),
       key: `${record.datetime}`,
       value: String(record.id),
       text: `${record.datetime} - ${patientLookup[record.patient_id]} - ${doctorLookup[record.doctor_id]}`,
@@ -118,7 +116,7 @@ fetchPatientData();
 const formSchema = toTypedSchema(
   z.object({
       date: z.string(),
-      medical_record_id: z.number(),
+      medical_record_id: z.string(),
       notes: z.string(),
   })
 );
@@ -129,6 +127,8 @@ const form = useForm({
 
 const router = useRouter();
 const onSubmit = form.handleSubmit((values) => {
+  values.medical_record_id = parseInt(values.medical_record_id)
+
   values.medicines = selectedMedicines.value;
   console.log(values);
   axios.put(`/prescriptions/${patientId}`, values).then(() => {
@@ -203,7 +203,7 @@ const handleMedicineChange = (event) => {
             </FormControl>
             <SelectContent>
               <SelectGroup>
-                <SelectItem v-for="record in medicalRecordsSelectValues" :key="record.key" :value="record.value">
+                <SelectItem v-for="record in medicalRecordsSelectValues" :key="record.id" :value="record.id">
                   {{ record.text }}
                 </SelectItem>
               </SelectGroup>
