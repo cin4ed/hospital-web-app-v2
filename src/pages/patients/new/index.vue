@@ -66,13 +66,13 @@ const formSchema = toTypedSchema(
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink>
-            <RouterLink to="/">Inicio</RouterLink>
+            <RouterLink to="/patients">Inicio</RouterLink>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="/medicines">
-            <RouterLink to="/medicines">Medicamentos</RouterLink>
+          <BreadcrumbLink href="/patients">
+            <RouterLink to="/patients">Pacientes</RouterLink>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
