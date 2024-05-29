@@ -77,7 +77,7 @@ onMounted(() => {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink>
-            <RouterLink to="/">Inicio</RouterLink>
+            <RouterLink to="/appointments">Inicio</RouterLink>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />

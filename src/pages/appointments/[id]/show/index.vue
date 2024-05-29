@@ -117,13 +117,13 @@ const goBack = () => {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink>
-            <RouterLink to="/">Inicio</RouterLink>
+            <RouterLink to="/appointments">Inicio</RouterLink>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="/apointments">
-            <RouterLink to="/apointments">Citas</RouterLink>
+          <BreadcrumbLink href="/appointments">
+            <RouterLink to="/appointments">Citas</RouterLink>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
