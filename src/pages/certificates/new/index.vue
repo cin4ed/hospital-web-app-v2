@@ -2,6 +2,8 @@
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
+import axios from "@/lib/axios";
+import { ref, onMounted } from "vue";
 
 import {
   Breadcrumb,
@@ -11,6 +13,16 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 import {
   FormControl,
@@ -25,11 +37,40 @@ import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
 
+import type { Doctor } from "../doctors/columns.ts";
+import type { Patient } from "../patients/columns.ts";
+
+const doctorsSelectValues = ref([])
+const patientsSelectValues = ref([])
+async function fetchData(): Promise<void> {
+  try {
+    const doctorsRequest = await axios.get(`/doctors`);
+    const patientsRequest = await axios.get(`/patients`);
+    const doctorsTable = doctorsRequest.data;
+    const patientsTable = patientsRequest.data;
+
+    doctorsSelectValues.value = doctorsTable.map(doctor => ({
+      value: doctor.id.toString(),
+      text: doctor.name,
+    }));
+
+    patientsSelectValues.value = patientsTable.map(patient => ({
+      value: patient.id.toString(),
+      text: patient.name,
+    }));
+
+  } catch (err) {
+    console.error('Error fetching data: ', err);
+  }
+}
+
+onMounted(fetchData);
+
 const formSchema = toTypedSchema(
   z.object({
-        date: z.date(),
-        name_paciente: z.string(),
-        name_doctor: z.string(),
+        date: z.string(),
+        patient_id: z.string(),
+        doctor_id: z.string(),
         age: z.number(),
         height: z.number(),
         weight: z.number(),
@@ -45,7 +86,15 @@ const form = useForm({
 });
 
 const onSubmit = form.handleSubmit((values) => {
-  console.log(values);
+  console.log(values)
+  axios.post(`/medical-certificates/`, values)
+    .then(response => {
+      console.log('Datos enviados con éxito:', response.data);
+      /* router.push(`/appointments`); */
+    })
+    .catch(error => {
+      console.error('Error al enviar los datos:', error);
+    });
 });
 </script>
 
@@ -87,37 +136,47 @@ const onSubmit = form.handleSubmit((values) => {
         </FormItem>
       </FormField>
       <!-- name -->
-      <FormField v-slot="{ componentField }" name="doctor_name">
-        <FormItem>
-          <FormLabel>Nombre del doctor</FormLabel>
+      <br>
+      <FormField v-slot="{ componentField }" name="doctor_id">
+        <Select v-bind="componentField">
+          <FormLabel>Doctor involucrado</FormLabel>
           <FormControl>
-            <Input
-              type="text"
-              placeholder="John"
-              v-bind="componentField"
-            />
+            <SelectTrigger>
+              <SelectValue placeholder="Seleccione un doctor" />
+            </SelectTrigger>
           </FormControl>
-          <FormMessage />
-        </FormItem>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem v-for="doctor in doctorsSelectValues" :key="doctor.id" :value="doctor.value">
+                {{ doctor.text }}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </FormField>
       <!-- name -->
-      <FormField v-slot="{ componentField }" name="patient_name">
-        <FormItem>
-          <FormLabel>Nombre del paciente</FormLabel>
+      <br>
+      <FormField v-slot="{ componentField }" name="patient_id">
+        <Select v-bind="componentField">
+          <FormLabel>Paciente involucrado</FormLabel>
           <FormControl>
-            <Input
-              type="text"
-              placeholder="Francis"
-              v-bind="componentField"
-            />
+            <SelectTrigger>
+              <SelectValue placeholder="Seleccione un paciente" />
+            </SelectTrigger>
           </FormControl>
-          <FormMessage />
-        </FormItem>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem v-for="patient in patientsSelectValues" :key="patient.id" :value="patient.value">
+                {{ patient.text }}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </FormField>
       <!-- name -->
       <FormField v-slot="{ componentField }" name="age">
         <FormItem>
-          <FormLabel>Edad del paciente</FormLabel>
+          <FormLabel>Edad actual del paciente</FormLabel>
           <FormControl>
             <Input
               type="number"
@@ -132,10 +191,10 @@ const onSubmit = form.handleSubmit((values) => {
       <!-- name -->
       <FormField v-slot="{ componentField }" name="height">
         <FormItem>
-          <FormLabel>Altura del paciente</FormLabel>
+          <FormLabel>Altura actual del paciente</FormLabel>
           <FormControl>
             <Input
-              type="any"
+              type="number"
               placeholder="1.70"
               v-bind="componentField"
             />
@@ -146,10 +205,10 @@ const onSubmit = form.handleSubmit((values) => {
        <!-- name -->
        <FormField v-slot="{ componentField }" name="weight">
         <FormItem>
-          <FormLabel>Peso del paciente</FormLabel>
+          <FormLabel>Peso actual del paciente</FormLabel>
           <FormControl>
             <Input
-              type="any"
+              type="number"
               placeholder="80.70"
               v-bind="componentField"
             />
@@ -163,7 +222,7 @@ const onSubmit = form.handleSubmit((values) => {
          <FormLabel>Presión sistólica</FormLabel>
          <FormControl>
            <Input
-             type="any"
+             type="number"
              placeholder="100"
              v-bind="componentField"
            />
@@ -177,7 +236,7 @@ const onSubmit = form.handleSubmit((values) => {
           <FormLabel>Presión diastólica</FormLabel>
           <FormControl>
             <Input
-              type="any"
+              type="number"
               placeholder="100"
               v-bind="componentField"
             />
@@ -191,7 +250,7 @@ const onSubmit = form.handleSubmit((values) => {
           <FormLabel>Ritmo cárdiaco</FormLabel>
           <FormControl>
             <Input
-              type="any"
+              type="number"
               placeholder="100"
               v-bind="componentField"
             />
@@ -205,7 +264,7 @@ const onSubmit = form.handleSubmit((values) => {
           <FormLabel>Ritmo respiratorio</FormLabel>
           <FormControl>
             <Input
-              type="any"
+              type="number"
               placeholder="100"
               v-bind="componentField"
             />
