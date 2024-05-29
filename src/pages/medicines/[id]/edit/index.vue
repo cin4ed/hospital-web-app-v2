@@ -153,7 +153,7 @@ import { Button } from "@/components/ui/button";
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink>
-            <RouterLink to="/">Inicio</RouterLink>
+            <RouterLink to="/medicines">Inicio</RouterLink>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -164,7 +164,7 @@ import { Button } from "@/components/ui/button";
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Nuevo</BreadcrumbPage>
+          <BreadcrumbPage>Editar</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

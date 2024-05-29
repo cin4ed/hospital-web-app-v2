@@ -91,7 +91,7 @@ import { Button } from "@/components/ui/button";
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink>
-            <RouterLink to="/">Inicio</RouterLink>
+            <RouterLink to="/medicines">Inicio</RouterLink>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
