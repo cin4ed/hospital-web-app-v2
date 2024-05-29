@@ -5,6 +5,7 @@ import * as z from "zod";
 import { ref } from "vue";
 import { useRouter, useRoute } from 'vue-router';
 import axios from "@/lib/axios";
+import { toast } from 'vue-sonner'
 
 import {
   Breadcrumb,
@@ -102,10 +103,22 @@ const form = useForm({
 });
 
   const router = useRouter();
-  const onSubmit = form.handleSubmit((values) => {
-    console.log(values);
-    axios.put(`/doctors/${doctorId}`, values);
-    router.push(`/doctors`);
+  const onSubmit = form.handleSubmit(async (values) => {
+    try {
+      console.log(values);
+      await axios.put(`/doctors/${doctorId}`, values);
+      toast.success('Su registro se ha editado con éxito');
+      router.push(`/doctors`);
+    } catch (error) {
+      console.error("Error al editar el doctor:", error);
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error('Ha ocurrido un error al intentar editar su registro', {
+          description: `${error.response.data.message}`,
+        });
+      } else {
+        toast.error('Ha ocurrido un error desconocido al intentar editar su registro');
+      }
+    }
   });
   const turnBack = () => {
     router.push(`/doctors`);
