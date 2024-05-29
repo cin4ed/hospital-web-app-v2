@@ -18,6 +18,18 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from '@/components/ui/alert-dialog'
+
+import {
   Select,
   SelectContent,
   SelectGroup,
@@ -276,7 +288,40 @@ const turnBack = () => {
         </div>
       </div>
       <div class="flex gap-2">
-        <Button type="submit">Guardar</Button>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Button type="button">Guardar</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>¿Estas completamente seguro de querer añadir este registro?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Esta acción solo puede deshacerse eliminando por completo el elemento una vez añadido o 
+                editandolo, sin embargo, debe de asegurar de que todos los datos son capturados de manera
+                correcta para evitar cualquier inconveniente a la hora de utilizar la información.
+              </AlertDialogDescription>
+              <p class="text-black font-semibold text-lg">Datos del elemento:</p>
+              <div class="overflow-auto max-h-96">
+                <span class="font-semibold">Fecha de expedición: </span><span>{{ form.values.date }}</span><br>
+                <span class="font-semibold">Descripción de la receta: </span><span>{{ form.values.notes }}</span><br>
+                <span class="font-semibold">Consulta: </span><span>{{ form.values.medical_record_id }}</span><br>
+                <span class="font-semibold">Medicinas: </span><br>
+                <span v-for="item in selectedMedicineNames" :key="item.medicine_id">
+                  <span>{{ item.medicine_name }} - </span>
+                  <span>{{ item.dose }} </span>
+                  <span>, {{ item.timePeriod }} </span><br>
+                </span>
+                <br>
+              </div>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction>
+                <Button type="submit" @click="onSubmit">Confirmar</Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
         <Button type="button" class="bg-red-500" @click="turnBack">Cancelar</Button>
       </div>
     </form>
