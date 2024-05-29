@@ -62,6 +62,9 @@ const formSchema = toTypedSchema(
     axios.post(`/patients`, values);
     router.push(`/patients`);
   });
+const turnBack = () => {
+    router.push(`/patients`);
+  };
 </script>
 
 <template>
@@ -191,7 +194,10 @@ const formSchema = toTypedSchema(
           <FormMessage />
         </FormItem>
       </FormField>
-      <Button type="submit">Guardar</Button>
+      <div class="flex gap-2">
+        <Button type="submit">Guardar</Button>
+        <Button type="button" class="bg-red-500" @click="turnBack">Cancelar</Button>
+      </div>
     </form>
   </div>
 </template>
