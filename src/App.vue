@@ -8,6 +8,7 @@ import * as z from "zod";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import axios from "@/lib/axios";
+import { Toaster } from '@/components/ui/sonner'
 
 import {
   FormControl,
@@ -35,9 +36,9 @@ if (user) loadLayout.value = true;
 
 const onSubmit = form.handleSubmit(async (values) => {
   try {
-    await axios.get("http://localhost:80/sanctum/csrf-cookie");
+    await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie");
 
-    const res = await axios.post("http://localhost:80/login", {
+    const res = await axios.post("http://127.0.0.1:8000/login", {
       email: "admin@admin.com",
       password: "admin",
     });
@@ -52,6 +53,7 @@ const onSubmit = form.handleSubmit(async (values) => {
 
 <template>
   <div>
+    <Toaster />
     <div
       class="grid min-h-screen w-full md:grid-cols-[200px_1fr] lg:grid-cols-[280px_1fr]"
       v-if="loadLayout"
