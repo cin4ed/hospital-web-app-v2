@@ -5,6 +5,7 @@ import * as z from "zod";
 import { ref } from "vue";
 import { useRouter, useRoute } from 'vue-router';
 import axios from "@/lib/axios";
+import { toast } from 'vue-sonner'
 
 import {
   Breadcrumb,
@@ -106,31 +107,38 @@ const form = useForm({
 
 const router = useRouter();
   
-const onSubmit = form.handleSubmit((values) => {
-  values.patient_id = parseInt(values.patient_id);
-  values.doctor_id = parseInt(values.doctor_id);
-  if (values.datetime) {
-    const date = new Date(values.datetime);
+const onSubmit = form.handleSubmit(async (values) => {
+    try {
+      values.patient_id = parseInt(values.patient_id);
+      values.doctor_id = parseInt(values.doctor_id);
+      
+      if (values.datetime) {
+        const date = new Date(values.datetime);
 
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); 
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); 
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
 
-    values.datetime = `${year}-${month}-${day} ${hours}:${minutes}`;
-  }
-  
-  console.log(values);
-  axios.put(`/medical-records/${appointmentId}`, values)
-    .then(response => {
-      console.log('Datos enviados con éxito:', response.data);
+        values.datetime = `${year}-${month}-${day} ${hours}:${minutes}`;
+      }
+
+      console.log(values);
+      await axios.put(`/medical-records/${appointmentId}`, values);
+      toast.success('Su registro se ha editado con éxito');
       router.push(`/appointments`);
-    })
-    .catch(error => {
-      console.error('Error al enviar los datos:', error);
-    });
-});
+    } catch (error) {
+      console.error("Error al editar el doctor:", error);
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error('Ha ocurrido un error al intentar editar su registro', {
+          description: `${error.response.data.message}`,
+        });
+      } else {
+        toast.error('Ha ocurrido un error desconocido al intentar editar su registro');
+      }
+    }
+  });
 const turnBack = () => {
     router.push(`/appointments`);
   };

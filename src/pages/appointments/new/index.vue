@@ -5,6 +5,7 @@ import * as z from "zod";
 import { ref } from "vue";
 import { useRouter, useRoute } from 'vue-router';
 import axios from "@/lib/axios";
+import { toast } from 'vue-sonner'
 
 import {
   Breadcrumb,
@@ -76,30 +77,37 @@ const form = useForm({
 });
 
 const router = useRouter();
-const onSubmit = form.handleSubmit((values) => {
-  values.patient_id = parseInt(values.patient_id);
-  values.doctor_id = parseInt(values.doctor_id);
-  if (values.datetime) {
-    const date = new Date(values.datetime);
+const onSubmit = form.handleSubmit(async (values) => {
+  try {
+    values.patient_id = parseInt(values.patient_id);
+    values.doctor_id = parseInt(values.doctor_id);
+    
+    if (values.datetime) {
+      const date = new Date(values.datetime);
 
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); 
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); 
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
 
-    values.datetime = `${year}-${month}-${day} ${hours}:${minutes}`;
+      values.datetime = `${year}-${month}-${day} ${hours}:${minutes}`;
+    }
+
+    console.log(values);
+    await axios.post(`/medical-records/`, values);
+    toast.success('Su registro se ha agregado con éxito');
+    router.push(`/appointments`);
+  } catch (error) {
+    console.error("Error al crear su elemento:", error);
+    if (error.response && error.response.data && error.response.data.message) {
+      toast.error('Ha ocurrido un error al intentar agregar un nuevo registro', {
+        description: `${error.response.data.message}`,
+      });
+    } else {
+      toast.error('Ha ocurrido un error desconocido al intentar agregar un nuevo registro');
+    }
   }
-  
-  console.log(values);
-  axios.post(`/medical-records/`, values)
-    .then(response => {
-      console.log('Datos enviados con éxito:', response.data);
-      router.push(`/appointments`);
-    })
-    .catch(error => {
-      console.error('Error al enviar los datos:', error);
-    });
 });
 const turnBack = () => {
     router.push(`/appointments`);
