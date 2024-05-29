@@ -5,6 +5,19 @@
   import axios from "@/lib/axios";
   import { useRouter, useRoute } from 'vue-router';
   import { toast } from 'vue-sonner'
+  import { ref, watch } from 'vue'
+
+  import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from '@/components/ui/alert-dialog'
 
   const props = defineProps<{
     resource: string;
@@ -12,6 +25,49 @@
   }>();
 
   const router = useRouter();
+  const deleteId = ref(-1);
+  const displayDeleteConfirmationMessage = ref(false)
+
+  watch(deleteId, () => {
+    displayDeleteConfirmationMessage.value = true
+  })
+
+  const formattedData = ref([]);
+  const getElementData = async () => {
+    try {
+      const response = await axios.get(`/${props.resource}/${props.id}`);
+      const data = response.data;
+
+      const doctorsTable = await axios.get(`/doctors/`);
+      const doctorsData = doctorsTable.data;
+
+      const patientsTable = await axios.get(`/patients/`);
+      const patientsData = patientsTable.data;
+
+      formattedData.value = Object.keys(data).map(key => {
+        let value = data[key];
+
+        if (key === 'doctor_id') {
+          const doctor = doctorsData.find(doc => doc.id === value);
+          value = doctor ? doctor.name : "No se encontró el registro";
+        } else if (key === 'patient_id') {
+          const patient = patientsData.find(pat => pat.id === value);
+          value = patient ? patient.name : "No se encontró el registro";
+        } else if (key === 'medicines') {
+          value = "No se puede desplegar el listado de medicinas aquí. Favor de consultarlo en la vista detallada de la receta."
+        }
+
+        return {
+          header: key,
+          value: value
+        };
+      });
+
+      console.log(formattedData.value);
+    } catch (error) {
+      console.error('Error fetching patient data:', error);
+    }
+  };
 
   function deleteElement(argument: any) {
     if(props.resource == 'appointments'){
@@ -80,9 +136,32 @@
           Imprimir certificado
         </DropdownMenuItem>
       </a>
-      <DropdownMenuItem @click="deleteElement(id)">
-        Eliminar
-      </DropdownMenuItem>
+      <AlertDialog>
+        <AlertDialogTrigger class="hover:bg-gray-100 transition-all duration-300 text-start
+        w-full px-2 rounded-sm py-1 text-sm" @click="getElementData(id)">Eliminar</AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>¿Estas completamente seguro de querer borrar este registro?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta acción no puede deshacerse, y una vez eliminada el registro no podrá ser recuperador
+              de ninguna manera, afectando los registros de otras tablas y la integridad de las mismas.
+            </AlertDialogDescription>
+            <p class="text-black font-semibold text-lg">Datos a eliminar:</p>
+            <div class="overflow-auto max-h-96">
+              <div class="flex flex-col flex-wrap gap-3 justify-start">
+                <p class="border-2 p-2" v-for="element in formattedData" :key=element.id>
+                  <p class="text-black font-semibold">{{ element.header }}</p>
+                  <p class="pl-3">{{ element.value }}</p>
+                </p>
+              </div>
+            </div>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction @click="deleteElement(id)">Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 		</DropdownMenuContent>
 	</DropdownMenu>	
 </template>
