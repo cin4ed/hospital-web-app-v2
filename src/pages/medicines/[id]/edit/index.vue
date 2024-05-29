@@ -17,6 +17,18 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from '@/components/ui/alert-dialog'
+
+import {
   Select,
   SelectContent,
   SelectGroup,
@@ -399,7 +411,41 @@ import { Button } from "@/components/ui/button";
         </FormItem>
       </FormField>
       <div class="flex gap-2">
-        <Button type="submit">Guardar</Button>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Button type="button">Guardar</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>¿Estás completamente seguro de querer editar este registro?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Esta acción solo puede deshacerse volviendo a editar el elemento. Debes asegurarte de que todos los datos 
+                son capturados de manera correcta para evitar cualquier inconveniente a la hora de utilizar la información.
+              </AlertDialogDescription>
+              <p class="text-black font-semibold text-lg">Datos del elemento:</p>
+              <div class="overflow-auto max-h-96">
+                <span class="font-semibold">Nombre: </span><span>{{ form.values.name }}</span><br>
+                <span class="font-semibold">Ingredientes Activos: </span><span>{{ form.values.active_ingredients }}</span><br>
+                <span class="font-semibold">Dósis: </span><span>{{ form.values.dosage_strength }}</span><br>
+                <span class="font-semibold">Unidad: </span><span>{{ form.values.dosage_unit }}</span><br>
+                <span class="font-semibold">Información: </span><span>{{ form.values.prescription_info }}</span><br>
+                <span class="font-semibold">Presentación: </span><span>{{ form.values.presentation }}</span><br>
+                <span class="font-semibold">Precio: </span><span>{{ form.values.price }}</span><br>
+                <span class="font-semibold">Cantidad en Stock: </span><span>{{ form.values.quantity_in_stock }}</span><br>
+                <span class="font-semibold">Nombre del proveedor: </span><span>{{ form.values.supplier_name }}</span><br>
+                <span class="font-semibold">Contacto del proveedor: </span><span>{{ form.values.supplier_contact }}</span><br>
+                <span class="font-semibold">Costo del proveedor: </span><span>{{ form.values.supplier_cost }}</span><br>
+                <span class="font-semibold">Descripción: </span><span>{{ form.values.description }}</span><br>
+              </div>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction>
+                <Button type="submit" @click="onSubmit">Confirmar</Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
         <Button type="button" class="bg-red-500" @click="turnBack">Cancelar</Button>
       </div>
     </form>
