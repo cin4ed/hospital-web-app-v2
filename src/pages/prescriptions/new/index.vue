@@ -6,6 +6,7 @@ import axios from "@/lib/axios";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { Textarea } from '@/components/ui/textarea'
+import { toast } from 'vue-sonner'
 
 import {
   Breadcrumb,
@@ -125,12 +126,27 @@ const form = useForm({
 });
 
 const router = useRouter();
-const onSubmit = form.handleSubmit((values) => {
-  values.medicines = selectedMedicineNames.value;
-  console.log(values);
-  /* axios.post(`/prescriptions/`, values).then(() => {
+const onSubmit = form.handleSubmit(async (values) => {
+  const transformedMedicines = selectedMedicineNames.value.map(item => ({
+    medicine_id: item.medicine_id,
+    indications: `${item.dose} ${item.medicine_name} ${item.timePeriod}`
+  }));
+  values.medicines = transformedMedicines
+  try {
+    console.log(values);
+    await axios.post(`/prescriptions/`, values);
+    toast.success('Su registro se ha agregado con éxito');
     router.push(`/prescriptions`);
-  }); */
+  } catch (error) {
+    console.error("Error al crear su elemento:", error);
+    if (error.response && error.response.data && error.response.data.message) {
+      toast.error('Ha ocurrido un error al intentar agregar un nuevo registro', {
+        description: `${error.response.data.message}`,
+      });
+    } else {
+      toast.error('Ha ocurrido un error desconocido al intentar agregar un nuevo registro');
+    }
+  }
 });
 
 const addNewMedicine = () => {
@@ -145,6 +161,8 @@ const addNewMedicine = () => {
         dose: selectedDoseVar.value,
         timePeriod: selectedTimePeriodVar.value
       });
+
+      medicinesSelectValues.value = medicinesSelectValues.value.filter(medicine => medicine.id !== selectedMedicineId);
 
       selectedMedicineVar.value = null;
       selectedDoseVar.value = "";

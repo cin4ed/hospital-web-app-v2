@@ -91,11 +91,9 @@ const form = useForm({
 });
 
   const router = useRouter();
-  const onSubmit = form.handleSubmit((values) => {
-    console.log(values);
-    axios.put(`/doctors/${doctorId}`, values);
+  const goBack = () => {
     router.push(`/doctors`);
-  });
+  };
 </script>
 
 <template>
@@ -232,7 +230,7 @@ const form = useForm({
           <FormMessage />
         </FormItem>
       </FormField>
-      <Button type="submit">Regresar</Button>
+      <Button type="button" @click="goBack">Regresar</Button>
     </form>
   </div>
 </template>
