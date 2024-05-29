@@ -96,6 +96,9 @@ const onSubmit = form.handleSubmit((values) => {
       console.error('Error al enviar los datos:', error);
     });
 });
+const turnBack = () => {
+    router.push(`/medicines`);
+  };
 </script>
 
 <template>
@@ -272,7 +275,10 @@ const onSubmit = form.handleSubmit((values) => {
           <FormMessage />
         </FormItem>
       </FormField>
-      <Button type="submit">Guardar</Button>
+      <div class="flex gap-2">
+        <Button type="submit">Guardar</Button>
+        <Button type="button" class="bg-red-500" @click="turnBack">Cancelar</Button>
+      </div>
     </form>
   </div>
 </template>
