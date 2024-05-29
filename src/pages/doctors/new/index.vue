@@ -60,6 +60,9 @@ const form = useForm({
     axios.post(`/doctors/`, values);
     router.push(`/doctors`);
   });
+  const turnBack = () => {
+    router.push(`/doctors`);
+  };
 </script>
 
 <template>
@@ -183,7 +186,10 @@ const form = useForm({
           <FormMessage />
         </FormItem>
       </FormField>
-      <Button type="submit">Guardar</Button>
+      <div class="flex gap-2">
+        <Button type="submit">Guardar</Button>
+        <Button type="button" class="bg-red-500" @click="turnBack">Cancelar</Button>
+      </div>
     </form>
   </div>
 </template>
