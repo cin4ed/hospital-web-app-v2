@@ -4,6 +4,7 @@
   import { Button } from '@/components/ui/button';
   import axios from "@/lib/axios";
   import { useRouter, useRoute } from 'vue-router';
+  import { toast } from 'vue-sonner'
 
   const props = defineProps<{
     resource: string;
@@ -24,10 +25,20 @@
     }else{
       axios.delete(`/${props.resource}/${props.id}`)
       .then(() => {
-        window.location.reload();
+        toast.success('Su registro se ha eliminado con éxito');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
       .catch(error => {
         console.error('Error deleting element:', error);
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error('Ha ocurrido un error al intentar eliminar este registro', {
+            description: `${error.response.data.message}`,
+          });
+        } else {
+          toast.error('Ha ocurrido un error desconocido al intentar eliminar este registro');
+        }
       });
     }
   }
