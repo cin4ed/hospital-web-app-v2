@@ -17,6 +17,13 @@ export type Prescriptions = {
   name: string;
 };
 
+const truncateNotes = (notes: string, maxLength: number) => {
+  if (notes.length > maxLength) {
+    return notes.slice(0, maxLength) + '...';
+  }
+  return notes;
+};
+
 export const columns: ColumnDef<Prescriptions>[] = [
   {
     accessorKey: "date",
@@ -45,28 +52,33 @@ export const columns: ColumnDef<Prescriptions>[] = [
       });
       return h("div", { class: "text-center capitalize" }, formattedDate);
     },
-  },  
+  },
   {
     accessorKey: "notes",
     header: "Notas de la receta",
-  },  
+    cell: ({ row }) => {
+      const prescription = row.original;
+      const truncatedNotes = truncateNotes(prescription.notes, 30);
+      return h("div", truncatedNotes);
+    },
+  },
   {
     accessorKey: "doctor_name",
     header: "Nombre del Doctor",
-  },    
+  },
   {
     accessorKey: "patient_lastname",
     header: "Apellidos del Paciente",
-  },    
+  },
   {
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
       const prescription = row.original;
-      return h('div', { class: 'relative'}, h(DropdownAction, {
+      return h('div', { class: 'relative' }, h(DropdownAction, {
         resource: 'prescriptions',
         id: prescription.id
-      }))
+      }));
     }
   }
 ];
