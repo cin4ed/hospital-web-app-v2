@@ -17,6 +17,18 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from '@/components/ui/alert-dialog'
+
+import {
   Select,
   SelectContent,
   SelectGroup,
@@ -108,6 +120,16 @@ const onSubmit = form.handleSubmit(async (values) => {
 const turnBack = () => {
     router.push(`/certificates`);
   };
+
+  const getDoctorName = (doctorId) => {
+      const doctor = doctorsSelectValues.value.find(d => d.value === doctorId);
+      return doctor ? doctor.text : 'Desconocido';
+    };
+
+    const getPatientName = (patientId) => {
+      const patient = patientsSelectValues.value.find(p => p.value === patientId);
+      return patient ? patient.text : 'Desconocido';
+    };
 </script>
 
 <template>
@@ -285,7 +307,40 @@ const turnBack = () => {
         </FormItem>
       </FormField>
       <div class="flex gap-2">
-        <Button type="submit">Guardar</Button>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Button type="button">Guardar</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>¿Estas completamente seguro de querer añadir este registro?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Esta acción solo puede deshacerse eliminando por completo el elemento una vez añadido o 
+                editandolo, sin embargo, debe de asegurar de que todos los datos son capturados de manera
+                correcta para evitar cualquier inconveniente a la hora de utilizar la información.
+              </AlertDialogDescription>
+              <p class="text-black font-semibold text-lg">Datos del elemento:</p>
+              <div class="overflow-auto max-h-96">
+                <span class="font-semibold">Fecha de emisión del certificado: </span><span>{{ form.values.date }}</span><br>
+                <span class="font-semibold">Doctor involucrado: </span><span>{{ getDoctorName(form.values.doctor_id) }}</span><br>
+                <span class="font-semibold">Paciente involucrado: </span><span>{{ getPatientName(form.values.patient_id) }}</span><br>
+                <span class="font-semibold">Edad actual del paciente: </span><span>{{ form.values.age }}</span><br>
+                <span class="font-semibold">Altura actual del paciente: </span><span>{{ form.values.height }}</span><br>
+                <span class="font-semibold">Peso actual del paciente: </span><span>{{ form.values.weight }}</span><br>
+                <span class="font-semibold">Presión sistólica: </span><span>{{ form.values.systolic_pressure }}</span><br>
+                <span class="font-semibold">Presión diastólica: </span><span>{{ form.values.diastolic_pressure }}</span><br>
+                <span class="font-semibold">Ritmo cárdiaco: </span><span>{{ form.values.heart_rate }}</span><br>
+                <span class="font-semibold">Ritmo respiratorio: </span><span>{{ form.values.respiratory_rate }}</span><br>
+              </div>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction>
+                <Button type="submit" @click="onSubmit">Confirmar</Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
         <Button type="button" class="bg-red-500" @click="turnBack">Cancelar</Button>
       </div>
     </form>
