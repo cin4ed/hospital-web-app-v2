@@ -9,6 +9,18 @@ import { columns } from "@/pages/appointments/columns.ts";
 import DataTable from "@/components/ui/data-table.vue";
 
 import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from '@/components/ui/alert-dialog'
+
+import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,

@@ -17,6 +17,18 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from '@/components/ui/alert-dialog'
+
+import {
   Select,
   SelectContent,
   SelectGroup,
@@ -142,6 +154,15 @@ const onSubmit = form.handleSubmit(async (values) => {
 const turnBack = () => {
     router.push(`/appointments`);
   };
+  const getDoctorName = (doctorId) => {
+      const doctor = doctorsSelectValues.value.find(d => d.value === doctorId);
+      return doctor ? doctor.text : 'Desconocido';
+    };
+
+    const getPatientName = (patientId) => {
+      const patient = patientsSelectValues.value.find(p => p.value === patientId);
+      return patient ? patient.text : 'Desconocido';
+    };
 </script>
 
 <template>
@@ -223,7 +244,32 @@ const turnBack = () => {
         </FormItem>
       </FormField>
       <div class="flex gap-2">
-        <Button type="submit">Guardar</Button>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Button type="button">Editar</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>¿Estás completamente seguro de querer editar este registro?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Esta acción solo puede deshacerse volviendo a editar el elemento. Debes asegurarte de que todos los datos 
+                son capturados de manera correcta para evitar cualquier inconveniente a la hora de utilizar la información.
+              </AlertDialogDescription>
+              <p class="text-black font-semibold text-lg">Datos del elemento:</p>
+              <div class="overflow-auto max-h-96">
+                <span class="font-semibold">Nombre: </span><span>{{ form.values.datetime }}</span><br>
+                <span class="font-semibold">Apellido: </span><span>{{ getDoctorName(form.values.doctor_id) }}</span><br>
+                <span class="font-semibold">Especialidad: </span><span>{{ getPatientName(form.values.patient_id) }}</span><br>
+              </div>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction>
+                <Button type="submit" @click="onSubmit">Confirmar</Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
         <Button type="button" class="bg-red-500" @click="turnBack">Cancelar</Button>
       </div>
     </form>
