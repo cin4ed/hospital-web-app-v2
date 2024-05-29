@@ -39,8 +39,12 @@ import { Button } from "@/components/ui/button";
 
   const formSchema = toTypedSchema(
     z.object({
-      name: z.string(),
-      active_ingredients: z.string(),
+      name: z.string().regex(/^[a-zA-Z\s]+$/, {
+        message: "El nombre solo puede contener letras y espacios",
+      }),
+      active_ingredients: z.string().regex(/^[a-zA-Z\s]+$/, {
+        message: "El nombre solo puede contener letras y espacios",
+      }),
       dosage_strength: z.number(),
       dosage_unit: z.enum([
         'mg',
@@ -53,8 +57,10 @@ import { Button } from "@/components/ui/button";
       presentation: z.enum(["pill", "capsule", "syrup"]),
       price: z.number(),
       quantity_in_stock: z.number().int(),
-      supplier_name: z.string(),
-      supplier_contact: z.string(),
+      supplier_name: z.string().regex(/^[a-zA-Z\s]+$/, {
+        message: "El nombre solo puede contener letras y espacios",
+      }),
+      supplier_contact: z.number(),
       supplier_cost: z.number(),
       description: z.string().optional(),
     })
@@ -78,6 +84,7 @@ import { Button } from "@/components/ui/button";
   const router = useRouter();
   const onSubmit = form.handleSubmit((values) => {
     console.log(values);
+    values.supplier_contact = values.supplier_contact.toString();
     values.dosage_strength = values.dosage_strength.toString();
     values.price = values.price.toString();
     axios.post(`/medicines/`, values);
@@ -269,7 +276,7 @@ import { Button } from "@/components/ui/button";
           <FormLabel>Contacto del proveedor</FormLabel>
           <FormControl>
             <Input
-                type="text"
+                type="number"
                 placeholder="ABC Pharmaceuticals"
                 v-bind="componentField"
             />

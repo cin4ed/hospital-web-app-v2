@@ -102,8 +102,12 @@ import { Button } from "@/components/ui/button";
 
   const formSchema = toTypedSchema(
     z.object({
-      name: z.string(),
-      active_ingredients: z.string(),
+      name: z.string().regex(/^[a-zA-Z\s]+$/, {
+        message: "El nombre solo puede contener letras y espacios",
+      }),
+      active_ingredients: z.string().regex(/^[a-zA-Z\s]+$/, {
+        message: "El nombre solo puede contener letras y espacios",
+      }),
       dosage_strength: z.number(),
       dosage_unit: z.enum([
         'mg',
@@ -116,7 +120,9 @@ import { Button } from "@/components/ui/button";
       presentation: z.enum(["pill", "capsule", "syrup"]),
       price: z.number(),
       quantity_in_stock: z.number().int(),
-      supplier_name: z.string(),
+      supplier_name: z.string().regex(/^[a-zA-Z\s]+$/, {
+        message: "El nombre solo puede contener letras y espacios",
+      }),
       supplier_contact: z.number(),
       supplier_cost: z.number(),
       description: z.string().optional(),
