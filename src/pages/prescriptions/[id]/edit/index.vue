@@ -16,6 +16,16 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+
+import {
   FormControl,
   FormField,
   FormItem,
@@ -91,8 +101,11 @@ const fetchPatientData = async () => {
     const medicalRecordsRequest = await axios.get(`/medical-records`);
     const medicalRecordsTable = medicalRecordsRequest.data;
 
-    medicalRecordsSelectValues.value = medicalRecordsTable.map(record => ({
-      value: record.id,
+    medicalRecordsSelectValues.value = medicalRecordsTable
+    .sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
+    .map(record => ({
+      key: `${record.datetime}`,
+      value: String(record.id),
       text: `${record.datetime} - ${patientLookup[record.patient_id]} - ${doctorLookup[record.doctor_id]}`,
     }));
 
@@ -182,13 +195,20 @@ const handleMedicineChange = (event) => {
       <FormField v-slot="{ componentField }" name="medical_record_id">
         <FormItem>
           <FormLabel>Consulta</FormLabel>
-          <FormControl>
-            <select v-bind="componentField">
-              <option v-for="record in medicalRecordsSelectValues" :key="record.value" :value="record.value">
-                {{ record.text }}
-              </option>
-            </select>
-          </FormControl>
+          <Select v-bind="componentField">
+            <FormControl>
+              <SelectTrigger>
+                <SelectValue placeholder="Seleccione una consulta" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem v-for="record in medicalRecordsSelectValues" :key="record.key" :value="record.value">
+                  {{ record.text }}
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
           <FormMessage />
         </FormItem>
       </FormField>

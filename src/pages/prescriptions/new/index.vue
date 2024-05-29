@@ -98,7 +98,9 @@ const fetchPatientData = async () => {
     const medicalRecordsRequest = await axios.get(`/medical-records`);
     const medicalRecordsTable = medicalRecordsRequest.data;
 
-    medicalRecordsSelectValues.value = medicalRecordsTable.map(record => ({
+    medicalRecordsSelectValues.value = medicalRecordsTable
+    .sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
+    .map(record => ({
       key: `${record.datetime}`,
       value: String(record.id),
       text: `${record.datetime} - ${patientLookup[record.patient_id]} - ${doctorLookup[record.doctor_id]}`,
