@@ -76,12 +76,23 @@ fetchPatientData();
 
 const formSchema = toTypedSchema(
   z.object({
-    name: z.string(),
-    lastname: z.string(),
-    speciality: z.string(),
+    name: z.string().regex(/^[a-zA-Z\s]+$/, {
+      message: "El nombre solo puede contener letras y espacios",
+    }),
+    lastname: z.string().regex(/^[a-zA-Z\s]+$/, {
+      message: "El apellido solo puede contener letras y espacios",
+    }),
+    speciality: z.string().regex(/^[a-zA-Z\s]+$/, {
+      message: "La especialidad solo puede contener letras y espacios",
+    }),
     admission_date: z.string(),
     professional_id: z.string(),
-    phone_number: z.string(),
+    phone_number: z.string().length(10, {
+      message: "El número de teléfono debe tener exactamente 10 dígitos",
+    })
+    .regex(/^\d{10}$/, {
+      message: "El número de teléfono solo puede contener dígitos",
+    }),
     email: z.string(),
   })
 );
