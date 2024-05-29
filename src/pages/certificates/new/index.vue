@@ -27,7 +27,6 @@ import { Button } from "@/components/ui/button";
 
 const formSchema = toTypedSchema(
   z.object({
-
         date: z.date(),
         name_paciente: z.string(),
         name_doctor: z.string(),
@@ -38,8 +37,6 @@ const formSchema = toTypedSchema(
         diastolic_pressure: z.number(),
         heart_rate: z.number(),
         respiratory_rate: z.number(),
-
-
   })
 );
 
@@ -58,7 +55,7 @@ const onSubmit = form.handleSubmit((values) => {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink>
-            <RouterLink to="/">Inicio</RouterLink>
+            <RouterLink to="/certificates">Inicio</RouterLink>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
