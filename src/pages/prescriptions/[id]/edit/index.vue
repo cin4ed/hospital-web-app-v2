@@ -175,7 +175,7 @@ const onSubmit = form.handleSubmit(async (values) => {
     toast.success('Su registro se ha editado con éxito');
     router.push(`/prescriptions`);
   } catch (error) {
-    console.error("Error al crear su elemento:", error);
+    console.error("Error al editar su elemento:", error);
     if (error.response && error.response.data && error.response.data.message) {
       toast.error('Ha ocurrido un error al intentar editar su registro', {
         description: `${error.response.data.message}`,

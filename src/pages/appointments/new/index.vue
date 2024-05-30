@@ -217,7 +217,7 @@ const turnBack = () => {
       <div class="flex gap-2">
         <AlertDialog>
           <AlertDialogTrigger>
-            <Button type="button">Editar</Button>
+            <Button type="button">Crear</Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
