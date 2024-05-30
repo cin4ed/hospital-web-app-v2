@@ -36,9 +36,9 @@ if (user) loadLayout.value = true;
 
 const onSubmit = form.handleSubmit(async (values) => {
   try {
-    await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie");
+    await axios.get("https://hospital.betweenframes.net/api/sanctum/csrf-cookie");
 
-    const res = await axios.post("http://127.0.0.1:8000/login", {
+    const res = await axios.post("https://hospital.betweenframes.net/api/login", {
       email: "admin@admin.com",
       password: "admin",
     });
